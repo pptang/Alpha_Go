@@ -7,6 +7,7 @@ import (
 	"gopkg.in/gorp.v1"
 	"log"
 	"strconv"
+	"github.com/gin-gonic/contrib/static"
 )
 
 var dbmap = initDb()
@@ -165,6 +166,8 @@ func DeleteUser(c *gin.Context) {
 
 func main() {
 	r := gin.Default()
+
+	r.Use(static.Serve("/", static.LocalFile("./public", true)))
 
 	v1 := r.Group("api/v1")
 	{
