@@ -1,37 +1,51 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Component } from 'react';
-import reduxApi, {transformers} from "redux-api";
-// import { Provider } from 'react-redux';
+import App from './pages/App';
+import Home from './pages/Home';
+import SignIn from './pages/SignIn';
+import { Provider } from 'react-redux';
+import { Router, browserHistory, Route, IndexRoute } from 'react-router';
+import configureStore from './store/configureStore.js';
 
+const store = configureStore();
 
+/****** Example for send request
+import axios from 'axios';
 
-class OutingApp extends Component {
+const ROOT_URL = 'http://localhost:8080';
+// class OutingApp extends Component {
 
-    getUsers() {
-        console.log("onClick");
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            console.log(xmlHttp.responseText);
-        }
-        xmlHttp.open("GET", "http://localhost:8080/api/v1/users", true); // true for asynchronous
-        xmlHttp.send(null);
-    }
+    // getUsers() {
+    //     console.log("onClick");
+    //     const request = axios.get(`${ROOT_URL}/api/v1/users`);
+    //     request.then((data) => {
+    //         console.log(data.payload);
+    //     })
+    // }
 
-    render() {
-        return (
-            <div>
-                <p> Outing App! </p>
-                <button onClick={this.getUsers}>
-                    Get Users
-                </button>
-            </div>
-        );
-    }
-}
+    // render() {
+    //     return (
+    //         <div>
+    //             <p> Outing App! </p>
+    //             <button onClick={this.getUsers}>
+    //                 Get Users
+    //             </button>
+    //         </div>
+    //     );
+    // }
+// }
+
+**************/
 
 ReactDOM.render(
-    <OutingApp />,
+    <Provider store={store}>
+        <Router history={browserHistory}>
+            <Route path="/" component={App}>
+                <IndexRoute component={Home} />
+                <Route path="/signin" component={SignIn} />
+            </Route>
+        </Router>
+    </Provider>,
     document.getElementById('root')
 );
