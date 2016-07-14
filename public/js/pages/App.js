@@ -1,15 +1,13 @@
 import React from 'react';
 import { Component } from 'react';
-// import AppContainer from '../containers/AppContainer';
+import AppContainer from '../containers/AppContainer';
 
 export default class App extends Component {
   render() {
     return (
-      // <AppContainer>
-      <div>
+      <AppContainer>
         {this.props.children}
-      </div>
-      // </AppContainer>
+      </AppContainer>
     );
   }
 }

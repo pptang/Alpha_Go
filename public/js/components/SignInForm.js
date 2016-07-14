@@ -3,24 +3,24 @@ import { Link } from 'react-router';
 
 class SignInForm extends Component {
   render() {
-    const {asyncValidating, fields: {username, password}, handleSubmit, submitting, user } = this.props;
+    const {asyncValidating, fields: {email, password}, handleSubmit, submitting, user } = this.props;
 
     return (
       <div className="container">
         <form onSubmit={handleSubmit(this.props.signInUser.bind(this))}>
-          <div className={`form-group ${username.touched && username.invalid ? 'has-error' : ''}`}>
-            <label className="control-label">@username*</label>
-            <input placeholder="@raja" type="text" className="form-control" {...username} />
+          <div className={`form-group ${email.touched && email.invalid ? 'has-error' : ''}`}>
+            <label className="control-label">Email</label>
+            <input placeholder="xxx@xxx.com" type="text" className="form-control" {...email} />
             <div className="help-block">
-              {username.touched ? username.error : ''}
+              {email.touched ? email.error : ''}
             </div>
             <div className="help-block">
-              {asyncValidating === 'username' ? 'validating..' : ''}
+              {asyncValidating === 'email' ? 'validating..' : ''}
             </div>
           </div>
 
           <div className={`form-group ${password.touched && password.invalid ? 'has-error' : ''}`}>
-            <label className="control-label">Password*</label>
+            <label className="control-label">Password</label>
             <input type="password" className="form-control" {...password} />
             <div className="help-block">
               {password.touched ? password.error : ''}

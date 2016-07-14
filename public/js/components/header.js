@@ -50,6 +50,7 @@ class Header extends Component {
 
         );
       case 'sign_in':
+      case 'sign_up':
         return (
           <div className="container">
             <ul className="nav nav-pills navbar-left">

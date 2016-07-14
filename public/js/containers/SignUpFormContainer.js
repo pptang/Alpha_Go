@@ -1,33 +1,34 @@
-import SignInForm from '../components/SignInForm.js';
-import { signInUser, signInUserSuccess, signInUserFailure}  from '../actions/users';
+import SignUpForm from '../components/SignUpForm.js';
+import { signUpUser, signUpUserSuccess, signUpUserFailure } from '../actions/users';
 import { reduxForm } from 'redux-form';
 
-// Client side validation
-function validateForm(values) {
+function validate(values) {
   var errors = {};
 
   if (!values.email || values.email.trim() === '') {
-    errors.email = 'Enter email';
+    errors.email = 'Enter your email';
   }
   if (!values.password || values.password.trim() === '') {
     errors.password = 'Enter password';
   }
+  if (values.confirmPassword !== values.password) {
+    errors.confirmPassword = 'Password And Confirm Password don\'t match';
+  }
+
   return errors;
 }
 
-const validateAndSignInUser = (values, dispatch) => {
-
+const validateAndSignUpUser = (values, dispatch) => {
   return new Promise((resolve, reject) => {
-    dispatch(signInUser(values))
+    dispatch(signUpUser(values))
       .then((response) => {
         let data = response.payload.data;
-
         if (response.payload.status != 200) {
-          dispatch(signInUserFailure(response.payload));
+          dispatch(signUpUserFailure(response.payload));
           reject(data);
         } else {
           sessionStorage.setItem('jwtToken', response.payload.data.token);
-          dispatch(signInUserSuccess(response.payload));
+          dispatch(signUpUserSuccess(response.payload));
           resolve();
         }
       });
@@ -37,20 +38,19 @@ const validateAndSignInUser = (values, dispatch) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     user: state.user
-  };
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signInUser: validateAndSignInUser
-
-  };
+    signUpUser: validateAndSignUpUser
+  }
 }
 
 export default reduxForm({
-  form: 'SignInForm',
-  fields: ['email', 'password'],
+  form: 'SignUpForm',
+  fields: ['email', 'password', 'confirmPassword'],
   null,
   null,
-  validateForm
-}, mapStateToProps, mapDispatchToProps)(SignInForm);
+  validate
+}, mapStateToProps, mapDispatchToProps)(SignUpForm);
