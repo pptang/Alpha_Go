@@ -42,7 +42,7 @@ export function signInUserFailure(error) {
 }
 
 export function signUpUser(formValues) {
-  const request = axios.post(`${ROOT_URL}/api/v1/signup`, formValues);
+  const request = axios.post(`${ROOT_URL}api/v1/signup`, formValues);
   return {
     type: SIGNUP_USER,
     payload: request
@@ -64,7 +64,7 @@ export function signUpUserFailure(error) {
 }
 
 export function getUserFromToken(tokenFromStorage) {
-  const request = axios.get(`${ROOT_URL}/api/v1/getUser?token=${tokenFromStorage}`);
+  const request = axios.get(`${ROOT_URL}api/v1/getUser?token=${tokenFromStorage}`);
 
   return {
     type: GET_USER_FROM_TOKEN,

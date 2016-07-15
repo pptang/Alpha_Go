@@ -22942,7 +22942,7 @@
 	}
 
 	function signUpUser(formValues) {
-	  var request = _axios2.default.post(_config.ROOT_URL + '/api/v1/signup', formValues);
+	  var request = _axios2.default.post(_config.ROOT_URL + 'api/v1/signup', formValues);
 	  return {
 	    type: SIGNUP_USER,
 	    payload: request
@@ -22964,7 +22964,7 @@
 	}
 
 	function getUserFromToken(tokenFromStorage) {
-	  var request = _axios2.default.get(_config.ROOT_URL + '/api/v1/getUser?token=' + tokenFromStorage);
+	  var request = _axios2.default.get(_config.ROOT_URL + 'api/v1/getUser?token=' + tokenFromStorage);
 
 	  return {
 	    type: GET_USER_FROM_TOKEN,
@@ -24219,7 +24219,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var ROOT_URL = exports.ROOT_URL = 'http://localhost:8080';
+	var ROOT_URL = exports.ROOT_URL = 'http://localhost:8080/';
 
 /***/ },
 /* 219 */
