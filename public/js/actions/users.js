@@ -20,7 +20,7 @@ export const RESET_TOKEN = "RESET_TOKEN";
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 export function signInUser(formValues) {
-  const request = axios.post(`${ROOT_URL}/api/v1/signin`, formValues);
+  const request = axios.post(`${ROOT_URL}api/v1/signin`, formValues);
   return {
     type: SIGNIN_USER,
     payload: request

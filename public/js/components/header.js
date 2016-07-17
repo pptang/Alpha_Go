@@ -8,6 +8,9 @@ class Header extends Component {
       return (
         <ul className="nav nav-pills navbar-right">
           <li style={{paddingRight: '10px'}} role="presentation">
+            {authenticatedUser.email}
+          </li>
+          <li style={{paddingRight: '10px'}} role="presentation">
             <a style={{color: '#996633', fontSize: '17px'}} onClick={this.props.logout}>
               Log out
             </a>
@@ -34,6 +37,7 @@ class Header extends Component {
 
   renderLinks() {
     const { type, authenticatedUser } = this.props;
+    console.log('header::' + JSON.stringify(authenticatedUser))
     switch(type) {
       case 'home':
         return (

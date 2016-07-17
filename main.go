@@ -274,10 +274,31 @@ func authMiddleware() gin.HandlerFunc {
 		if token.Valid {
 			c.Next()
 		} else {
-			c.JSON(403, gin.H{"error": true, "message": "something wrong"})
+			c.JSON(403, gin.H{"error": true, "message": "token not valid"})
 		}
 	}
 
+}
+
+func GetUserInfo(c *gin.Context) {
+	tokenString := c.Query("token")
+	if tokenString != "" {
+		token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+				// Don't forget to validate the alg is what you expect:
+				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+						return nil, fmt.Errorf("Something wrong")
+				}
+				return mySigningKey, nil
+		})
+
+		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		    // fmt.Println(claims["foo"], claims["nbf"])
+				c.JSON(200, gin.H{"token": tokenString, "email": claims["email"]})
+		}
+		log.Println("Wrong in getuserinfo")
+	} else {
+		c.JSON(401, gin.H{"error": true, "message": "Must pass token"})
+	}
 }
 
 func main() {
@@ -313,6 +334,7 @@ func main() {
 	{
 		v1.POST("/signup", UserSignUp)
 		v1.POST("/signin", UserSignIn)
+		v1.GET("/getUser", GetUserInfo)
 		v1.GET("/test", authMiddleware(), TestHandler)
 
 		// v1.GET("/users", GetUsers)

@@ -2,6 +2,18 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 class SignInForm extends Component {
+
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  componentWillReceiveProps(nextProps) {
+    
+    if (nextProps.user.status === 'authenticated' && nextProps.user.user && !nextProps.user.error) {
+      this.context.router.push('/');
+    }
+  }
+
   render() {
     const {asyncValidating, fields: {email, password}, handleSubmit, submitting, user } = this.props;
 
