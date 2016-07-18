@@ -9,6 +9,9 @@ function validateForm(values) {
   if (!values.email || values.email.trim() === '') {
     errors.email = 'Enter email';
   }
+  if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = 'Wrong Format';
+  }
   if (!values.password || values.password.trim() === '') {
     errors.password = 'Enter password';
   }
@@ -36,7 +39,7 @@ const validateAndSignInUser = (values, dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user
+    user: state.UserReducer
   };
 }
 

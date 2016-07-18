@@ -8,6 +8,9 @@ function validate(values) {
   if (!values.email || values.email.trim() === '') {
     errors.email = 'Enter your email';
   }
+  if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = 'Wrong Format';
+  }
   if (!values.password || values.password.trim() === '') {
     errors.password = 'Enter password';
   }
@@ -28,7 +31,7 @@ const validateAndSignUpUser = (values, dispatch) => {
           dispatch(signUpUserFailure(response.payload));
           reject(data);
         } else {
-          console.log("signUpSuccess:" + response.payload.data.token);
+          
           sessionStorage.setItem('jwtToken', response.payload.data.token);
           dispatch(signUpUserSuccess(response.payload));
           resolve();
@@ -39,7 +42,7 @@ const validateAndSignUpUser = (values, dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user
+    user: state.UserReducer
   }
 }
 
