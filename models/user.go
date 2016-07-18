@@ -7,18 +7,22 @@ import (
 	"Alpha_Go/database"
 	"Alpha_Go/constants"
 	"errors"
+	"log"
 )
 
 type User struct {
 	Id        int64  `db:"id" json:"id"`
 	Email string `db:"email" json:"email"`
 	Password  string `db:"password" json:"password"`
+	Created int64 `db:"created_at" json:"created_at"`
 }
 
 func CreateUser(email string, pwd string) (*User, string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
 	if (err == nil) {
-		if insert, _ := database.Dbmap.Exec(`INSERT INTO user (email, password) VALUES (?, ?)`, email, hash); insert != nil {
+		if insert, insertErr := database.Dbmap.Exec(`INSERT INTO user (email, password, created_at)
+										VALUES (?, ?, ?)`, email, hash, time.Now().UnixNano()); insert != nil {
+
 			user_id, _ := insert.LastInsertId()
 			newUser := &User {
 				Id: user_id,
@@ -36,9 +40,11 @@ func CreateUser(email string, pwd string) (*User, string, error) {
 			return newUser, tokenString, nil
 
 		} else {
+			log.Println(insertErr)
 			return nil, "", errors.New("Insert User Error")
 		}
 	} else {
+		log.Println(err)
 		return nil, "", errors.New("Internal Error")
 	}
 }
