@@ -28,6 +28,7 @@ export default function(state = INITIAL_STATE, action) {
     case GET_USER_FROM_TOKEN:
       return { ...state, user: null, status: 'storage', error: null, loading: true};
     case GET_USER_FROM_TOKEN_SUCCESS:
+      var state = { ...state, user: action.payload.data.user, status: 'authenticated', error: null, loading: false};
       return { ...state, user: action.payload.data.user, status: 'authenticated', error: null, loading: false};
     case GET_USER_FROM_TOKEN_FAILURE:
       error = action.payload.data || {message: action.payload.message};

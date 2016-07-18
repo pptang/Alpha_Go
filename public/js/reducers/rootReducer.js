@@ -3,8 +3,8 @@ import UserReducer from './reducer_user';
 import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
-  user: UserReducer,
-  form: formReducer
+  UserReducer,
+  formReducer
 });
 
 export default rootReducer;

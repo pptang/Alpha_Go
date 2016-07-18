@@ -22,9 +22,8 @@ const validateAndSignUpUser = (values, dispatch) => {
   return new Promise((resolve, reject) => {
     dispatch(signUpUser(values))
       .then((response) => {
-        console.log("Finish Sign up user")
         let data = response.payload.data;
-        
+
         if (response.payload.status != 200) {
           dispatch(signUpUserFailure(response.payload));
           reject(data);

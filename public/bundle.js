@@ -24303,12 +24303,13 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var mapStateToProps = function mapStateToProps(state) {
+	function mapStateToProps(state) {
+
 	  return {
-	    authenticatedUser: state.status === 'authenticatedUser' ? state.user.user : null,
-	    user: state.user
+	    authenticatedUser: state.UserReducer.status === 'authenticated' ? state.UserReducer.user : null,
+	    user: state.UserReducer.user
 	  };
-	};
+	}
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	  return {
@@ -24414,7 +24415,6 @@
 	      var type = _props.type;
 	      var authenticatedUser = _props.authenticatedUser;
 
-	      console.log('header::' + JSON.stringify(authenticatedUser));
 	      switch (type) {
 	        case 'home':
 	          return _react2.default.createElement(
@@ -33352,7 +33352,6 @@
 	var validateAndSignUpUser = function validateAndSignUpUser(values, dispatch) {
 	  return new Promise(function (resolve, reject) {
 	    dispatch((0, _users.signUpUser)(values)).then(function (response) {
-	      console.log("Finish Sign up user");
 	      var data = response.payload.data;
 
 	      if (response.payload.status != 200) {
@@ -33569,8 +33568,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
-	  user: _reducer_user2.default,
-	  form: _reduxForm.reducer
+	  UserReducer: _reducer_user2.default,
+	  formReducer: _reduxForm.reducer
 	});
 
 	exports.default = rootReducer;
@@ -33611,6 +33610,7 @@
 	    case _users.GET_USER_FROM_TOKEN:
 	      return _extends({}, state, { user: null, status: 'storage', error: null, loading: true });
 	    case _users.GET_USER_FROM_TOKEN_SUCCESS:
+	      var state = _extends({}, state, { user: action.payload.data.user, status: 'authenticated', error: null, loading: false });
 	      return _extends({}, state, { user: action.payload.data.user, status: 'authenticated', error: null, loading: false });
 	    case _users.GET_USER_FROM_TOKEN_FAILURE:
 	      error = action.payload.data || { message: action.payload.message };

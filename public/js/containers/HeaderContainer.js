@@ -4,10 +4,11 @@ import { logoutUser } from '../actions/users';
 import Header from '../components/header.js';
 
 
-const mapStateToProps = (state) => {
+function mapStateToProps (state) {
+
   return {
-    authenticatedUser: state.status === 'authenticatedUser' ? state.user.user : null,
-    user: state.user
+    authenticatedUser: state.UserReducer.status === 'authenticated' ? state.UserReducer.user : null,
+    user: state.UserReducer.user
   };
 }
 

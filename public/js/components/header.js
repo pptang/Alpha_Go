@@ -36,8 +36,8 @@ class Header extends Component {
   }
 
   renderLinks() {
+
     const { type, authenticatedUser } = this.props;
-    console.log('header::' + JSON.stringify(authenticatedUser))
     switch(type) {
       case 'home':
         return (
