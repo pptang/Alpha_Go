@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 class SignUpForm extends Component {
-  
+
   static contextTypes = {
     router: PropTypes.object
   }
@@ -12,7 +12,6 @@ class SignUpForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(JSON.stringify(nextProps))
     if (nextProps.user.status === 'authenticated' && nextProps.user.user && !nextProps.user.error) {
       this.context.router.push('/');
     }
