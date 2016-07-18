@@ -11,7 +11,7 @@ class Header extends Component {
             {authenticatedUser.email}
           </li>
           <li style={{paddingRight: '10px'}} role="presentation">
-            <a style={{color: '#996633', fontSize: '17px'}} onClick={this.props.logout}>
+            <a href="#" style={{color: '#996633', fontSize: '17px'}} onClick={this.props.logout}>
               Log out
             </a>
           </li>

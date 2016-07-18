@@ -282,6 +282,7 @@ func authMiddleware() gin.HandlerFunc {
 
 func GetUserInfo(c *gin.Context) {
 	tokenString := c.Query("token")
+	log.Println(tokenString)
 	if tokenString != "" {
 		token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 				// Don't forget to validate the alg is what you expect:
@@ -293,9 +294,15 @@ func GetUserInfo(c *gin.Context) {
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		    // fmt.Println(claims["foo"], claims["nbf"])
-				c.JSON(200, gin.H{"token": tokenString, "email": claims["email"]})
+
+				currentEmail, _ := claims["email"].(string)
+				currentUser := &User {
+					Email: currentEmail,
+				}
+				c.JSON(200, gin.H{"token": tokenString, "user": currentUser})
+		} else {
+			log.Println("Wrong in getuserinfo")
 		}
-		log.Println("Wrong in getuserinfo")
 	} else {
 		c.JSON(401, gin.H{"error": true, "message": "Must pass token"})
 	}
