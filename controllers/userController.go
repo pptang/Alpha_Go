@@ -1,16 +1,11 @@
 package controllers
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"log"
 	"Alpha_Go/models"
 	"github.com/gin-gonic/gin"
-	"fmt"
-	"Alpha_Go/constants"
+	"Alpha_Go/utils"
 )
-
-
-
 
 func Register(c *gin.Context) {
 	var user models.User
@@ -48,6 +43,7 @@ func Login(c *gin.Context) {
 		if err == nil {
 			c.JSON(200, gin.H{"user": currentUser, "token": tokenString})
 		} else {
+			log.Println(err)
 			c.JSON(404, gin.H{"error": true, "message": err.Error()})
 		}
 
@@ -60,17 +56,10 @@ func GetUserInfo(c *gin.Context) {
 	tokenString := c.Query("token")
 
 	if tokenString != "" {
-		token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-				// Don't forget to validate the alg is what you expect:
-				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-						return nil, fmt.Errorf("Something wrong")
-				}
-				return constants.MY_SIGNING_KEY, nil
-		})
 
-		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		    // fmt.Println(claims["foo"], claims["nbf"])
+		claims, ok := utils.GetClaimsFromTokenString(tokenString)
 
+		if ok {
 				currentEmail, _ := claims["email"].(string)
 				currentUser := &models.User {
 					Email: currentEmail,

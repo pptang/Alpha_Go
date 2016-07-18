@@ -5,23 +5,35 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/gorp.v1"
 	"log"
+	"time"
+)
+
+var (
+	Dbmap *gorp.DbMap
 )
 
 type User struct {
 	Id        int64  `db:"id" json:"id"`
 	Email string `db:"email" json:"email"`
 	Password  string `db:"password" json:"password"`
+	Created int64 `db:"created_at" json:"created_at"`
 }
 
-var (
-	Dbmap *gorp.DbMap
-)
+type Event struct {
+  Id int64 `db:"id" json:"id"`
+  Title string `db:"title" json:"title"`
+  Description string `db:"desc" json:"desc"`
+  Date time.Time `db:"date" json:"date"`
+  HolderId int64 `db:"holder_id" json:"holder_id"`
+  Created int64 `db:"created_at" json:"created_at"`
+}
 
 func InitDb() {
 	db, err := sql.Open("mysql", "root:eddy0518@/myapi")
 	checkErr(err, "sql.Open failed")
 	Dbmap = &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{"InnoDB", "UTF8"}}
 	Dbmap.AddTableWithName(User{}, "User").SetKeys(true, "Id")
+	Dbmap.AddTableWithName(Event{}, "Event").SetKeys(true, "Id")
 	err = Dbmap.CreateTablesIfNotExists()
 	checkErr(err, "Create table failed")
 

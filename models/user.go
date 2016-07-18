@@ -2,12 +2,12 @@ package models
 
 import (
 	"time"
-	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 	"Alpha_Go/database"
-	"Alpha_Go/constants"
+	// "Alpha_Go/constants"
 	"errors"
 	"log"
+	"Alpha_Go/utils"
 )
 
 type User struct {
@@ -28,14 +28,8 @@ func CreateUser(email string, pwd string) (*User, string, error) {
 				Id: user_id,
 				Email: email,
 			}
-			jwtToken := jwt.New(jwt.SigningMethodHS256)
 
-			claims := jwtToken.Claims.(jwt.MapClaims)
-			claims["admin"] = true
-			claims["email"] = email
-			claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
-
-			tokenString, _ := jwtToken.SignedString(constants.MY_SIGNING_KEY)
+			tokenString := utils.GenerateJwt(user_id, email)
 
 			return newUser, tokenString, nil
 
@@ -52,6 +46,7 @@ func CreateUser(email string, pwd string) (*User, string, error) {
 func FindUserByEmail(email string) (*User, error) {
 	var user User
 	err := database.Dbmap.SelectOne(&user, "SELECT * FROM user WHERE email=?", email)
+	log.Println(err)
 	return &user, err
 }
 
@@ -62,15 +57,9 @@ func FindUserByEmailAndPassword(email string, pwd string) (*User, string, error)
 		if compPwdErr != nil {
 			return nil, "", errors.New("password is wrong")
 		} else {
+			log.Println(user)
+			tokenString := utils.GenerateJwt(user.Id, email)
 
-			jwtToken := jwt.New(jwt.SigningMethodHS256)
-
-			claims := jwtToken.Claims.(jwt.MapClaims)
-			claims["admin"] = true
-			claims["email"] = email
-			claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
-
-			tokenString, _ := jwtToken.SignedString(constants.MY_SIGNING_KEY)
 			currentUser := &User {
 				Email: email,
 			}
