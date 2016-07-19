@@ -16,7 +16,7 @@ func authMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		tokenString := c.Request.Header.Get("Authorization")
-		tokenString = strings.Replace(tokenString, "Bear ", "", 1)
+		tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
 
 		claims, ok := utils.GetClaimsFromTokenString(tokenString)
 
@@ -24,7 +24,8 @@ func authMiddleware() gin.HandlerFunc {
 			c.Set("user_id", claims["id"])
 			c.Next()
 		} else {
-			c.Abort()
+			c.Next()
+			// c.Abort()
 		}
 
 	}

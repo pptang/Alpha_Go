@@ -25,9 +25,7 @@ type PlaceOption struct {
 func CreateEvent(title string, desc string, place_options []string,
                   date int64, holder_id int64) error {
 
-  insert, insertErr := database.Dbmap.Exec(`INSERT INTO event (title, desc, date, holder_id, created_at)
-                        VALUES (?, ?, ?, ?, ?)`, title, desc, date, holder_id,
-                        time.Now().UnixNano())
+  insert, insertErr := database.Dbmap.Exec(`INSERT INTO event (title, desc) VALUES (?, ?)`, title, desc)
   if insertErr == nil {
     event_id, _ := insert.LastInsertId()
     err := InsertEventPlaceOptions(event_id, place_options)

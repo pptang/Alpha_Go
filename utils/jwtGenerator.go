@@ -20,14 +20,14 @@ func GenerateJwt(user_id int64, email string) (string) {
 }
 
 func GetClaimsFromTokenString(tokenString string) (map[string]interface{}, bool){
-  token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+  token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
       // Don't forget to validate the alg is what you expect:
       if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
           return nil, fmt.Errorf("Something wrong")
       }
       return constants.MY_SIGNING_KEY, nil
   })
-
+  fmt.Println(err)
   claims, ok := token.Claims.(jwt.MapClaims);
 
   if ok && token.Valid {

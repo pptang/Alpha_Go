@@ -46,7 +46,6 @@ func CreateUser(email string, pwd string) (*User, string, error) {
 func FindUserByEmail(email string) (*User, error) {
 	var user User
 	err := database.Dbmap.SelectOne(&user, "SELECT * FROM user WHERE email=?", email)
-	log.Println(err)
 	return &user, err
 }
 
@@ -57,7 +56,7 @@ func FindUserByEmailAndPassword(email string, pwd string) (*User, string, error)
 		if compPwdErr != nil {
 			return nil, "", errors.New("password is wrong")
 		} else {
-			log.Println(user)
+
 			tokenString := utils.GenerateJwt(user.Id, email)
 
 			currentUser := &User {

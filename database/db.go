@@ -38,9 +38,9 @@ func InitDb() {
 	db, err := sql.Open("mysql", "root:eddy0518@/myapi")
 	checkErr(err, "sql.Open failed")
 	Dbmap = &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{"InnoDB", "UTF8"}}
-	Dbmap.AddTableWithName(User{}, "User").SetKeys(true, "Id")
-	Dbmap.AddTableWithName(Event{}, "Event").SetKeys(true, "Id")
-	Dbmap.AddTableWithName(PlaceOption{}, "PlaceOption").SetKeys(true, "Id")
+	Dbmap.AddTableWithName(User{}, "user").SetKeys(true, "Id")
+	Dbmap.AddTableWithName(Event{}, "event").SetKeys(true, "Id")
+	Dbmap.AddTableWithName(PlaceOption{}, "place_option").SetKeys(true, "Id")
 	err = Dbmap.CreateTablesIfNotExists()
 	checkErr(err, "Create table failed")
 
