@@ -3,7 +3,6 @@ package models
 import (
   "time"
   "Alpha_Go/database"
-  "log"
   "Alpha_Go/schema"
 )
 
