@@ -45,12 +45,28 @@ func InsertEventPlaceOptions(event_id int64, place_options []string) error {
   if err == nil {
     return nil
   } else {
-    log.Println(err)
+
     return err
   }
 
 }
 
-func FindAllEvents() {
+func FindAllEvents() ([]schema.Event, error){
+  var events []schema.Event
+  _, err := database.Dbmap.Select(&events, "select * from event order by created_at")
 
+  if err != nil {
+    return events, nil
+  } else {
+    return nil, err
+  }
+  return nil, nil
+}
+
+func FindEventById(event_id string) (schema.Event, error){
+
+  var event schema.Event
+  err := database.Dbmap.SelectOne(&event, "select * from event where id=?", event_id)
+
+  return event, err
 }
