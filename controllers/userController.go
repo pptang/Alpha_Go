@@ -5,10 +5,11 @@ import (
 	"Alpha_Go/models"
 	"github.com/gin-gonic/gin"
 	"Alpha_Go/utils"
+	"Alpha_Go/schema"
 )
 
 func Register(c *gin.Context) {
-	var user models.User
+	var user schema.User
 	c.Bind(&user)
 
 	if user.Email != "" && user.Password != "" {
@@ -33,7 +34,7 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var user models.User
+	var user schema.User
 	c.Bind(&user)
 
 	if user.Email != "" && user.Password != "" {
@@ -61,7 +62,7 @@ func GetUserInfo(c *gin.Context) {
 
 		if ok {
 				currentEmail, _ := claims["email"].(string)
-				currentUser := &models.User {
+				currentUser := &schema.User {
 					Email: currentEmail,
 				}
 				c.JSON(200, gin.H{"token": tokenString, "user": currentUser})

@@ -7,6 +7,8 @@ import (
 	"Alpha_Go/controllers"
 	"strings"
 	"Alpha_Go/utils"
+	"reflect"
+	"log"
 )
 // func TestHandler(c *gin.Context) {
 // 	c.JSON(200, gin.H{"message": "success"})
@@ -22,6 +24,7 @@ func authMiddleware() gin.HandlerFunc {
 
 		if ok {
 			c.Set("user_id", claims["id"])
+			log.Println(reflect.TypeOf(claims["id"]))
 			c.Next()
 		} else {
 			c.Next()

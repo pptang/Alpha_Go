@@ -4,27 +4,20 @@ import (
 	"time"
 	"golang.org/x/crypto/bcrypt"
 	"Alpha_Go/database"
-	// "Alpha_Go/constants"
+	"Alpha_Go/schema"
 	"errors"
 	"log"
 	"Alpha_Go/utils"
 )
 
-type User struct {
-	Id        int64  `db:"id" json:"id"`
-	Email string `db:"email" json:"email"`
-	Password  string `db:"password" json:"password"`
-	Created int64 `db:"created_at" json:"created_at"`
-}
-
-func CreateUser(email string, pwd string) (*User, string, error) {
+func CreateUser(email string, pwd string) (*schema.User, string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
 	if (err == nil) {
 		if insert, insertErr := database.Dbmap.Exec(`INSERT INTO user (email, password, created_at)
 										VALUES (?, ?, ?)`, email, hash, time.Now().UnixNano()); insert != nil {
 
 			user_id, _ := insert.LastInsertId()
-			newUser := &User {
+			newUser := &schema.User {
 				Id: user_id,
 				Email: email,
 			}
@@ -43,13 +36,13 @@ func CreateUser(email string, pwd string) (*User, string, error) {
 	}
 }
 
-func FindUserByEmail(email string) (*User, error) {
-	var user User
+func FindUserByEmail(email string) (*schema.User, error) {
+	var user schema.User
 	err := database.Dbmap.SelectOne(&user, "SELECT * FROM user WHERE email=?", email)
 	return &user, err
 }
 
-func FindUserByEmailAndPassword(email string, pwd string) (*User, string, error) {
+func FindUserByEmailAndPassword(email string, pwd string) (*schema.User, string, error) {
 	user, err := FindUserByEmail(email)
 	if err == nil {
 		compPwdErr := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(pwd))
@@ -59,7 +52,7 @@ func FindUserByEmailAndPassword(email string, pwd string) (*User, string, error)
 
 			tokenString := utils.GenerateJwt(user.Id, email)
 
-			currentUser := &User {
+			currentUser := &schema.User {
 				Email: email,
 			}
 			return currentUser, tokenString, nil
