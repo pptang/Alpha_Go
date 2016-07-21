@@ -4,7 +4,6 @@ import (
   "Alpha_Go/models"
 	"github.com/gin-gonic/gin"
 	"Alpha_Go/schema"
-	"log"
 )
 
 func NewOutingEvent(c *gin.Context) {
@@ -17,7 +16,7 @@ func NewOutingEvent(c *gin.Context) {
 													event.PlaceOptions, event.Date, int64(user_id.(float64)))
 
 	if err == nil {
-		c.JSON(200, gin.H{})
+		c.JSON(200, gin.H{"event": event})
 	} else {
 		c.JSON(500, gin.H{"error": true, "message": err.Error()})
 	}
@@ -26,7 +25,7 @@ func NewOutingEvent(c *gin.Context) {
 
 func GetAllEvents(c *gin.Context) {
 	events, err := models.FindAllEvents()
-	log.Println(events)
+
 	if err == nil {
 		c.JSON(200, gin.H{"events": events})
 	} else {

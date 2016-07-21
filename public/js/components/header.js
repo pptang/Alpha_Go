@@ -55,11 +55,12 @@ class Header extends Component {
         );
       case 'sign_in':
       case 'sign_up':
+      case 'events_new':
         return (
           <div className="container">
             <ul className="nav nav-pills navbar-left">
               <li style={{padingRight: '10px'}} style={{color: '#337ab7', fontSize: '17px'}} role="presentation">
-                <Link to="/">
+                <Link className="text-xs-right" style={{color: '#33ab7', fontSize: '17px'}} to="/">
                   Back To Home
                 </Link>
               </li>

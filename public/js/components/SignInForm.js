@@ -15,7 +15,7 @@ class SignInForm extends Component {
   }
 
   render() {
-    const {asyncValidating, fields: {email, password}, handleSubmit, submitting, user } = this.props;
+    const {asyncValidating, fields: {email, password}, handleSubmit, submitting } = this.props;
 
     return (
       <div className="container">
@@ -26,9 +26,7 @@ class SignInForm extends Component {
             <div className="help-block">
               {email.touched ? email.error : ''}
             </div>
-            <div className="help-block">
-              {asyncValidating === 'email' ? 'validating..' : ''}
-            </div>
+
           </div>
 
           <div className={`form-group ${password.touched && password.invalid ? 'has-error' : ''}`}>
@@ -38,7 +36,7 @@ class SignInForm extends Component {
               {password.touched ? password.error : ''}
             </div>
           </div>
-          <button type="submit" className="btn btn-primary" disabled={submitting}> Submit </button>
+          <button type="submit" className="btn btn-primary" disabled={submitting}>Submit</button>
           <Link to="/" className="btn btn-error">Cancel</Link>
         </form>
       </div>

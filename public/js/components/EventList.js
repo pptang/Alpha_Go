@@ -10,9 +10,10 @@ class EventList extends Component {
   componentWillMount() {
     if (this.props.isAuthenticate) {
       this.props.getEvents();
-    } else {
-      this.context.router.push('/signin');
     }
+    // else {
+    //   this.context.router.push('/signin');
+    // }
   }
 
   renderEvents(events) {
@@ -36,13 +37,15 @@ class EventList extends Component {
       return <div className="container"><h1>Outing Events</h1><h3>Loading...</h3></div>
     } else if (error) {
       return <div className="alert alert-danger">Error: {error.message}</div>
+    } else if (!isAuthenticate) {
+      return <div className="container"><h1>Outing Events</h1><h2>You should login first!</h2></div>
     }
 
     return (
       <div className="container">
         <h1>Outing Events</h1>
         <ul className="list-group">
-          {this.renderEvents(events, isAuthenticate)}
+          {this.renderEvents(events)}
         </ul>
       </div>
     );

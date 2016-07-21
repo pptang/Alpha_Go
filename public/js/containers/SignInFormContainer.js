@@ -3,7 +3,7 @@ import { signInUser, signInUserSuccess, signInUserFailure}  from '../actions/use
 import { reduxForm } from 'redux-form';
 
 // Client side validation
-function validateForm(values) {
+function validate(values) {
   var errors = {};
 
   if (!values.email || values.email.trim() === '') {
@@ -55,5 +55,5 @@ export default reduxForm({
   fields: ['email', 'password'],
   null,
   null,
-  validateForm
+  validate
 }, mapStateToProps, mapDispatchToProps)(SignInForm);

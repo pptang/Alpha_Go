@@ -5,6 +5,7 @@ import App from './pages/App';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import EventsNew from './pages/EventsNew';
 import { Provider } from 'react-redux';
 import { Router, browserHistory, Route, IndexRoute } from 'react-router';
 import configureStore from './store/configureStore.js';
@@ -46,6 +47,7 @@ ReactDOM.render(
                 <IndexRoute component={Home} />
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />
+                <Route path="/events/new" component={EventsNew} />
             </Route>
         </Router>
     </Provider>,

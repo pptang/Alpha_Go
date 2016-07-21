@@ -4,6 +4,10 @@ export const GET_EVENTS = 'GET_EVENTS';
 export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
+export const NEW_EVENT = 'NEW_EVENT';
+export const NEW_EVENT_SUCCESS = 'NEW_EVENT_SUCCESS';
+export const NEW_EVENT_FAILURE = 'NEW_EVENT_FAILURE';
+
 export function getEvents(tokenFromStorage) {
   const request = axios({
     method: 'get',
@@ -26,6 +30,33 @@ export function getEventsSuccess(events) {
 export function getEventsFailure(error) {
   return {
     type: GET_EVENTS_FAILURE,
+    payload: error
+  };
+}
+
+export function newEvent(formValues, tokenFromStorage) {
+  const request = axios({
+    method: 'post',
+    data: formValues,
+    url: `${ROOT_URL}api/v1/events`,
+    headers: {'Authorization': `Bearer ${tokenFromStorage}`}
+  });
+  return {
+    type: NEW_EVENT,
+    payload: request
+  };
+}
+
+export function newEventSuccess(newPost) {
+  return {
+    type: NEW_EVENT_SUCCESS,
+    payload: newPost
+  }
+}
+
+export function newEventFailure(error) {
+  return {
+    type: NEW_EVENT_FAILURE,
     payload: error
   };
 }
