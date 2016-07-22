@@ -23,7 +23,13 @@ class EventsForm extends Component {
 
   render() {
     const { fields: { title, description, eventDate }, handleSubmit, submitting } = this.props;
+    if (!eventDate.value) {
+      eventDate.value = moment()
+    }
+    var onDateChange = function(...args) {
+      eventDate.onChange(...args)
 
+    }
     return (
       <div className="container">
         <form onSubmit={handleSubmit(this.props.createEvent.bind(this))}>
@@ -42,7 +48,7 @@ class EventsForm extends Component {
             </div>
           </div>
 
-          <DatePicker selected={this.props.newEvent.event.date} {...eventDate} />
+          <DatePicker onChange={onDateChange} selected={ eventDate.value }/>
 
           <button type="submit" className="btn btn-primary" disabled={submitting}>
             Submit

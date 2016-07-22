@@ -6,8 +6,9 @@ import {
 import { reduxForm } from 'redux-form';
 
 function validate(values) {
+  console.log("validate::" + JSON.stringify(values))
   const errors = {};
-  console.log(JSON.stringify(values))
+
   if (!values.title || values.title.trim() === '') {
     errors.title = 'Enter a Title';
   }
@@ -25,7 +26,7 @@ function validate(values) {
 }
 
 const validateAndCreateEvent = (values, dispatch) => {
-  console.log("validateAndCreateEvent")
+
   return new Promise((resolve, reject) => {
     let token = sessionStorage.getItem('jwtToken');
     if (!token || token === '') {
@@ -34,11 +35,11 @@ const validateAndCreateEvent = (values, dispatch) => {
       reject(error);
       return;
     }
-    console.log("before dispatch");
+
     dispatch(newEvent(values, token))
       .then((response) => {
         let data = response.payload.data;
-        console.log("then::" + response)
+
         if (response.payload.status != 200) {
           dispatch(newEventFailure(response.payload));
           reject(data);

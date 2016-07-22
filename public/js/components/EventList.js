@@ -14,6 +14,7 @@ class EventList extends Component {
   componentWillUpdate(nextProps, nextState) {
 
     var result = false;
+    // while isAuthenticate turns from false to true -> re-get events from server
     if (nextProps.isAuthenticate && !this.props.isAuthenticate) {
       result = true;
       this.props.getEvents();
@@ -36,7 +37,6 @@ class EventList extends Component {
   }
 
   render() {
-    console.log("EventList re-render::" + JSON.stringify(this.props))
 
     const { events, loading, error } = this.props.eventList;
     const { isAuthenticate } = this.props;
