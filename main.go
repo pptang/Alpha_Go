@@ -40,7 +40,11 @@ func main() {
 
 	r := gin.Default()
 
+ 	// workaround for refresh issue
 	r.Use(static.Serve("/", static.LocalFile("./public", true)))
+	r.Use(static.Serve("/signin", static.LocalFile("./public", true)))
+	r.Use(static.Serve("/signup", static.LocalFile("./public", true)))
+	r.Use(static.Serve("/events/new", static.LocalFile("./public", true)))
 
 	v1 := r.Group("api/v1")
 	{

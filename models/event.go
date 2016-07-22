@@ -52,7 +52,7 @@ func InsertEventPlaceOptions(event_id int64, place_options []string) error {
 
 func FindAllEvents() ([]schema.Event, error){
   var events []schema.Event
-  _, err := database.Dbmap.Select(&events, "select * from event order by created_at")
+  _, err := database.Dbmap.Select(&events, "select * from event order by created_at desc")
 
   if err != nil {
     return events, nil

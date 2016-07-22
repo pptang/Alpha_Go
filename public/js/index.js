@@ -12,34 +12,6 @@ import configureStore from './store/configureStore.js';
 
 const store = configureStore();
 
-/****** Example for send request
-import axios from 'axios';
-
-const ROOT_URL = 'http://localhost:8080';
-// class OutingApp extends Component {
-
-    // getUsers() {
-    //     console.log("onClick");
-    //     const request = axios.get(`${ROOT_URL}/api/v1/users`);
-    //     request.then((data) => {
-    //         console.log(data.payload);
-    //     })
-    // }
-
-    // render() {
-    //     return (
-    //         <div>
-    //             <p> Outing App! </p>
-    //             <button onClick={this.getUsers}>
-    //                 Get Users
-    //             </button>
-    //         </div>
-    //     );
-    // }
-// }
-
-**************/
-
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>

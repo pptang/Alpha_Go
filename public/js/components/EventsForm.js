@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+var DatePicker = require('react-datepicker');
+var moment = require('moment');
+
+require('react-datepicker/dist/react-datepicker.css')
 
 class EventsForm extends Component {
   static contextTypes = {
@@ -11,14 +15,14 @@ class EventsForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
-    if (nextProps.newEvent.event && !nextProps.newEvent.error) {
+
+    if (nextProps.newEvent.event.title && !nextProps.newEvent.error) {
       this.context.router.push('/');
     }
   }
 
   render() {
-    const { fields: { title, description }, handleSubmit, submitting } = this.props;
+    const { fields: { title, description, eventDate }, handleSubmit, submitting } = this.props;
 
     return (
       <div className="container">
@@ -37,6 +41,9 @@ class EventsForm extends Component {
               {description.touched ? description.error : ''}
             </div>
           </div>
+
+          <DatePicker selected={this.props.newEvent.event.date} {...eventDate} />
+
           <button type="submit" className="btn btn-primary" disabled={submitting}>
             Submit
           </button>

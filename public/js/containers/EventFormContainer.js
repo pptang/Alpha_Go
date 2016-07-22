@@ -7,7 +7,7 @@ import { reduxForm } from 'redux-form';
 
 function validate(values) {
   const errors = {};
-
+  console.log(JSON.stringify(values))
   if (!values.title || values.title.trim() === '') {
     errors.title = 'Enter a Title';
   }
@@ -64,7 +64,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default reduxForm({
   form: 'EventsForm',
-  fields: ['title', 'description'],
+  fields: ['title', 'description', 'eventDate'],
   null,
   null,
   validate

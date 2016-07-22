@@ -3,17 +3,22 @@ import { Link } from 'react-router';
 
 class EventList extends Component {
 
-  static contextTypes = {
-    router: PropTypes.object
-  }
-
   componentWillMount() {
+
     if (this.props.isAuthenticate) {
       this.props.getEvents();
     }
-    // else {
-    //   this.context.router.push('/signin');
-    // }
+
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+
+    var result = false;
+    if (nextProps.isAuthenticate && !this.props.isAuthenticate) {
+      result = true;
+      this.props.getEvents();
+    }
+    return result;
   }
 
   renderEvents(events) {
@@ -31,6 +36,8 @@ class EventList extends Component {
   }
 
   render() {
+    console.log("EventList re-render::" + JSON.stringify(this.props))
+
     const { events, loading, error } = this.props.eventList;
     const { isAuthenticate } = this.props;
     if (loading) {

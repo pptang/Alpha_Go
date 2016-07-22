@@ -3,9 +3,11 @@ import {
   NEW_EVENT, NEW_EVENT_SUCCESS, NEW_EVENT_FAILURE
 } from '../actions/events';
 
+var moment = require('moment');
+
 const INITIAL_STATE = {
   eventList: { events: [], error: null, loading: false},
-  newEvent: { event: null, error: null, loading: false}
+  newEvent: { event: {date: moment()}, error: null, loading: false}
 };
 
 export default function(state = INITIAL_STATE, action) {

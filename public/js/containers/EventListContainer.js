@@ -3,6 +3,7 @@ import EventList from '../components/EventList';
 import { getEvents, getEventsSuccess, getEventsFailure } from '../actions/events';
 
 const mapStateToProps = (state) => {
+  
   return {
     eventList: state.EventReducer.eventList,
     isAuthenticate: state.UserReducer.status === 'authenticated' ? true : false
