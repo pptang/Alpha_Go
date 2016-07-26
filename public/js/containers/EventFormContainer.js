@@ -26,6 +26,9 @@ function validate(values) {
 }
 
 const validateAndCreateEvent = (values, dispatch) => {
+
+  //TODO: modify date to timestamp
+
   console.log("ValidateAndCreateEvent::" + JSON.stringify(values));
   return new Promise((resolve, reject) => {
     let token = sessionStorage.getItem('jwtToken');
