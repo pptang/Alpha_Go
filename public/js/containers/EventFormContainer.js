@@ -26,7 +26,7 @@ function validate(values) {
 }
 
 const validateAndCreateEvent = (values, dispatch) => {
-
+  console.log("ValidateAndCreateEvent::" + JSON.stringify(values));
   return new Promise((resolve, reject) => {
     let token = sessionStorage.getItem('jwtToken');
     if (!token || token === '') {

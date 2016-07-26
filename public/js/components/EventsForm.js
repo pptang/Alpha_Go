@@ -15,8 +15,8 @@ class EventsForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
-    if (nextProps.newEvent.event.title && !nextProps.newEvent.error) {
+    // console.log("nextProps::" + JSON.stringify(nextProps))
+    if (nextProps.newEvent.event && nextProps.newEvent.event.title && !nextProps.newEvent.error) {
       this.context.router.push('/');
     }
   }
@@ -24,12 +24,22 @@ class EventsForm extends Component {
   render() {
     const { fields: { title, description, date }, handleSubmit, submitting } = this.props;
     if (!date.value) {
+
       date.value = moment()
-    }
-    var onDateChange = function(...args) {
-      date.onChange(...args)
 
     }
+    // var onDateChange = function(...args) {
+    //   console.log("typeof args::" + typeof(args));
+    //   console.log(args);
+    //   console.log("args stringify::" + JSON.stringify(args));
+    //
+    //   console.log("before onChange");
+    //   console.log(date);
+    //   date.onChange(...args)
+    //   console.log("after onChange");
+    //   console.log(date);
+    //
+    // }
     return (
       <div className="container">
         <form onSubmit={handleSubmit(this.props.createEvent.bind(this))}>
@@ -47,8 +57,10 @@ class EventsForm extends Component {
               {description.touched ? description.error : ''}
             </div>
           </div>
-
-          <DatePicker onChange={onDateChange} selected={ date.value }/>
+          <div className="form-group">
+            <label className="control-label">Date</label>
+            <DatePicker selected={ moment(date.value)} {...date} className="form-control" />
+          </div>
 
           <button type="submit" className="btn btn-primary" disabled={submitting}>
             Submit

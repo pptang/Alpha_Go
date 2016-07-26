@@ -7,7 +7,7 @@ import (
 )
 
 func CreateEvent(title string, description string, place_options []string,
-                  date int64, holder_id int64) error {
+                  date string, holder_id int64) error {
 
   insert, insertErr := database.Dbmap.Exec(`INSERT INTO event (title, description, date, holder_id, created_at)
                                             VALUES (?, ?, ?, ?, ?)`, title, description, date, holder_id, time.Now().UnixNano())
