@@ -65,7 +65,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default reduxForm({
   form: 'EventsForm',
-  fields: ['title', 'description', 'eventDate'],
+  fields: ['title', 'description', 'date'],
   null,
   null,
   validate

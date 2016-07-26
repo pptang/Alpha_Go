@@ -27,8 +27,8 @@ func authMiddleware() gin.HandlerFunc {
 			log.Println(reflect.TypeOf(claims["id"]))
 			c.Next()
 		} else {
-			c.Next()
-			// c.Abort()
+			// c.Next()
+			c.Abort()
 		}
 
 	}
