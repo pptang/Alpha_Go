@@ -53,7 +53,7 @@ func main() {
 		v1.GET("/getUser", controllers.GetUserInfo)
 		v1.POST("/events", authMiddleware(), controllers.NewOutingEvent)
 		v1.GET("/getAllEvents", authMiddleware(), controllers.GetAllEvents)
-		v1.GET("/getEventById", authMiddleware(), controllers.GetEventById)
+		v1.GET("/getEvent/:eventId", authMiddleware(), controllers.GetEventById)
 	}
 
 	r.Run(":8080")

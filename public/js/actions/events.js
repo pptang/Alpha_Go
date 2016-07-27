@@ -10,6 +10,10 @@ export const NEW_EVENT_FAILURE = 'NEW_EVENT_FAILURE';
 
 export const RESET_EVENT_STATE = 'RESET_EVENT_STATE';
 
+export const GET_EVENT_BY_ID = 'GET_EVENT_BY_ID';
+export const GET_EVENT_BY_ID_SUCCESS = 'GET_EVENT_BY_ID_SUCCESS';
+export const GET_EVENT_BY_ID_FAILURE = 'GET_EVENT_BY_ID_FAILURE';
+
 export function getEvents(tokenFromStorage) {
   const request = axios({
     method: 'get',
@@ -66,5 +70,31 @@ export function newEventFailure(error) {
 export function resetEventState() {
   return {
     type: RESET_EVENT_STATE
+  };
+}
+
+export function getEventById(eventId, tokenFromStorage) {
+  const request = axios({
+    method: 'get',
+    url: `${ROOT_URL}api/v1/getEvent/${eventId}`,
+    headers: {'Authorization': `Bearer ${tokenFromStorage}`}
+  });
+  return {
+    type: GET_EVENT_BY_ID,
+    payload: request
+  };
+}
+
+export function getEventByIdSuccess(event) {
+  return {
+    type: GET_EVENT_BY_ID_SUCCESS,
+    payload: event
+  };
+}
+
+export function getEventByIdFailure(error) {
+  return {
+    type: GET_EVENT_BY_ID_FAILURE,
+    payload: error
   };
 }

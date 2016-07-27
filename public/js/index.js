@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import EventsNew from './pages/EventsNew';
-import EventDetail from './pages/EventDetail';
+import EventShow from './pages/EventShow';
 import { Provider } from 'react-redux';
 import { Router, browserHistory, Route, IndexRoute } from 'react-router';
 import configureStore from './store/configureStore.js';
@@ -21,7 +21,7 @@ ReactDOM.render(
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />
                 <Route path="/events/new" component={EventsNew} />
-                <Route path="/event/:id" component={EventDetail} />
+                <Route path="/event/:id" component={EventShow} />
             </Route>
         </Router>
     </Provider>,
