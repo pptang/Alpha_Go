@@ -8,6 +8,8 @@ export const NEW_EVENT = 'NEW_EVENT';
 export const NEW_EVENT_SUCCESS = 'NEW_EVENT_SUCCESS';
 export const NEW_EVENT_FAILURE = 'NEW_EVENT_FAILURE';
 
+export const RESET_EVENT_STATE = 'RESET_EVENT_STATE';
+
 export function getEvents(tokenFromStorage) {
   const request = axios({
     method: 'get',
@@ -58,5 +60,11 @@ export function newEventFailure(error) {
   return {
     type: NEW_EVENT_FAILURE,
     payload: error
+  };
+}
+
+export function resetEventState() {
+  return {
+    type: RESET_EVENT_STATE
   };
 }

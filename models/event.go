@@ -4,6 +4,7 @@ import (
   "time"
   "Alpha_Go/database"
   "Alpha_Go/schema"
+  "log"
 )
 
 func CreateEvent(title string, description string, place_options []string,
@@ -13,6 +14,8 @@ func CreateEvent(title string, description string, place_options []string,
                                             VALUES (?, ?, ?, ?, ?)`, title, description, date, holder_id, time.Now().UnixNano())
   if insertErr == nil {
     event_id, _ := insert.LastInsertId()
+    log.Println(event_id)
+    log.Println(place_options)
     err := InsertEventPlaceOptions(event_id, place_options)
     if err == nil {
       return nil

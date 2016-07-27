@@ -1,6 +1,7 @@
 import EventsForm from '../components/EventsForm.js';
 import {
-  newEvent, newEventSuccess, newEventFailure
+  newEvent, newEventSuccess, newEventFailure,
+  resetEventState
 } from '../actions/events';
 
 import { reduxForm } from 'redux-form';
@@ -17,11 +18,6 @@ function validate(values) {
     errors.description = 'Enter some description';
   }
 
-  // if (!values.placeOptions || values.placeOptions.length == 0) {
-  //   error.placeOptions = 'At least create one option';
-  // }
-
-  // TODO: add date validation
   return errors;
 }
 
@@ -30,6 +26,12 @@ const validateAndCreateEvent = (values, dispatch) => {
   //TODO: modify date to timestamp
 
   console.log("ValidateAndCreateEvent::" + JSON.stringify(values));
+
+  if (!values.place_options || values.place_options.length == 0) {
+    alert('At least create one option!');
+    return;
+  }
+
   return new Promise((resolve, reject) => {
     let token = sessionStorage.getItem('jwtToken');
     if (!token || token === '') {
@@ -54,9 +56,11 @@ const validateAndCreateEvent = (values, dispatch) => {
   })
 };
 
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    createEvent: validateAndCreateEvent
+    createEvent: validateAndCreateEvent,
+    resetState: () => {dispatch(resetEventState());}
   };
 };
 
@@ -68,7 +72,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default reduxForm({
   form: 'EventsForm',
-  fields: ['title', 'description', 'date'],
+  fields: ['title', 'description', 'date', 'place_options'],
   null,
   null,
   validate

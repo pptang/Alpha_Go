@@ -1,6 +1,7 @@
 import {
   GET_EVENTS, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE,
-  NEW_EVENT, NEW_EVENT_SUCCESS, NEW_EVENT_FAILURE
+  NEW_EVENT, NEW_EVENT_SUCCESS, NEW_EVENT_FAILURE,
+  RESET_EVENT_STATE
 } from '../actions/events';
 
 var moment = require('moment');
@@ -26,6 +27,8 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, newEvent: {event: action.payload.data.event, error: null, loading: false}};
     case NEW_EVENT_FAILURE:
       return { ...state, newEvent: {event: null, error: error, loading: false}};
+    case RESET_EVENT_STATE:
+      return { ...state, newEvent: {event: null, error: null, loading: false}};
     default:
       return state;
   }
