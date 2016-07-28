@@ -39,9 +39,10 @@ class EventsForm extends Component {
   handleCreate = () => {
 
     this.setState((prevState, props) => {
-      this.props.fields.place_options.onChange([...prevState.place_options, this.state.editText]);
+      this.props.fields.place_options.onChange([...prevState.place_options, {title: this.state.editText}]);
       return {
-        place_options: [...prevState.place_options, this.state.editText]
+        editText: '',
+        place_options: [...prevState.place_options, {title: this.state.editText}]
       };
     });
 
@@ -50,6 +51,7 @@ class EventsForm extends Component {
   handleDelete = (index) => {
 
     this.setState({
+      editText: '',
       place_options: this.state.place_options.filter((_, i) => i !== index)
     });
   }
@@ -58,8 +60,8 @@ class EventsForm extends Component {
     return this.state.place_options.map((option, index) => {
       return (
         <li className="list-group-item" key={index}>
-          <h4 className="list-group-item-heading">{option}</h4>
-          <button type="button" onClick={() => this.handleDelete(index)}>Delete</button>
+          {option.title}
+          <span className="badge btn btn-default" onClick={() => this.handleDelete(index)}>X</span>
         </li>
       );
     });
@@ -99,8 +101,12 @@ class EventsForm extends Component {
 
           <div className="form-group">
             <label className="control-label">Create Options</label>
-            <input type="text" className="form-control" value={this.state.editText} onChange={(event) => this.setState({editText: event.target.value})}/>
-            <button type="button" className="btn btn-success" onClick={() => this.handleCreate()}>Create</button>
+            <div className="input-group">
+              <input type="text" className="form-control" value={this.state.editText} onChange={(event) => this.setState({editText: event.target.value})}/>
+              <span className="input-group-btn">
+                <button type="button" className="btn btn-default" onClick={() => this.handleCreate()}>Create</button>
+              </span>
+            </div>
           </div>
 
           <div className="form-group">

@@ -11,7 +11,7 @@ type Event struct {
   Id int64 `db:"id" json:"id"`
   Title string `db:"title" json:"title"`
   Description string `db:"description" json:"description"`
-	PlaceOptions []string `db:"-" json:"place_options"`
+	PlaceOptions []PlaceOption `db:"-" json:"place_options"`
 	Date string `db:"date" json:"date"`
   HolderId int64 `db:"holder_id" json:"holder_id"`
   Created int64 `db:"created_at" json:"created_at"`

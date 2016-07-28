@@ -25,10 +25,9 @@ class Header extends Component {
   renderSignInLinks(authenticatedUser) {
     if (authenticatedUser) {
       return (
+
         <ul className="nav nav-pills navbar-right">
-          <li style={{paddingRight: '10px'}} role="presentation">
-            {authenticatedUser.email}
-          </li>
+          <div className="navbar-brand">{authenticatedUser.email}</div>
           <li style={{paddingRight: '10px'}} role="presentation">
             <a href="#" style={{color: '#996633', fontSize: '17px'}} onClick={this.props.logout}>
               Log out

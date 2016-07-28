@@ -26,7 +26,7 @@ class EventList extends Component {
 
     return events.map((event) => {
       return (
-        <tr>
+        <tr key={event.id}>
           <td>
             <Link style={{color: 'black'}} to={"event/" + event.id}>
               {event.title}
@@ -51,6 +51,8 @@ class EventList extends Component {
       return <div className="alert alert-danger">Error: {error.message}</div>
     } else if (!isAuthenticate) {
       return <div className="container"><h1>Outing Events</h1><h2>You should login first!</h2></div>
+    } else if (!events || events.length == 0) {
+      return <div className="container"><h1>Outing Events</h1><h2>No new event available!</h2></div>
     }
 
     return (

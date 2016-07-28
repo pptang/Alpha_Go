@@ -7,16 +7,24 @@ class EventDetails extends Component {
   };
 
   componentWillUnmount() {
-    //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
-    //always reset that global state back to null when you REMOUNT
-    //  this.props.resetMe();
+
+     this.props.resetEvent();
   }
 
   componentDidMount() {
-    console.log("EventDetails mount before getEventByID");
-    this.props.getEventById(this.props.eventId);
-    console.log("EventDetails mount after getEventByID");
 
+    this.props.getEventById(this.props.eventId);
+
+  }
+
+  renderOptions(place_options) {
+    return place_options.map((option) => {
+      return (
+        <li className="list-group-item">
+          {option.title}
+        </li>
+      );
+    });
   }
 
 
@@ -31,11 +39,25 @@ class EventDetails extends Component {
     }
 
     return (
-      <div className="container">
-        <h3>{event.title}</h3>
-        <h6>Description: {event.description}</h6>
-        <p>{event.date}</p>
-        <p>{event.place_options}</p>
+      <div className="container-fluid text-center">
+        <h2>{event.title}</h2>
+        <br/>
+        <div className="row slideanim">
+          <div>
+            <h4>Description</h4>
+            <p>{event.description}</p>
+          </div>
+          <div>
+            <h4>Date</h4>
+            <p>{event.date}</p>
+          </div>
+          <div>
+            <h4>Options</h4>
+            <ul className="list-group">
+              {this.renderOptions(event.place_options)}
+            </ul>
+          </div>
+        </div>
       </div>
     );
   }

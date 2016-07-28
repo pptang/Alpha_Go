@@ -1,5 +1,5 @@
 import EventDetails from '../components/EventDetails.js';
-import { getEventById, getEventByIdSuccess, getEventByIdFailure} from '../actions/events';
+import { getEventById, getEventByIdSuccess, getEventByIdFailure, resetActiveEvent, resetDeletedEvent} from '../actions/events';
 import { connect } from 'react-redux';
 
 
@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
        let token = sessionStorage.getItem('jwtToken');
        dispatch(getEventById(id, token))
           .then((response) => {
-
+            console.log("event::::" + JSON.stringify(response.payload.data.event));
             let data = response.payload.data
             if (response.payload.status != 200) {
               dispatch(getEventByIdFailure(response.payload));
@@ -26,13 +26,12 @@ const mapDispatchToProps = (dispatch) => {
               dispatch(getEventByIdSuccess(response.payload));
             }
           });
-  	 }
-    //  ,
-    //  resetMe: () =>{
-    //   //clean up both activePost(currrently open) and deletedPost(open and being deleted) states
-    //     dispatch(resetActivePost());
-    //     dispatch(resetDeletedPost());
-    //  }
+  	 },
+     resetEvent: () =>{
+
+        dispatch(resetActiveEvent());
+        dispatch(resetDeletedEvent());
+     }
   };
 }
 

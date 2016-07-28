@@ -18,7 +18,7 @@ export const DELETE_EVENT_BY_ID = 'DELETE_EVENT_BY_ID';
 export const DELETE_EVENT_BY_ID_SUCCESS = 'DELETE_EVENT_BY_ID_SUCCESS';
 export const DELETE_EVENT_BY_ID_FAILURE = 'DELETE_EVENT_BY_ID_FAILURE';
 export const RESET_DELETED_EVENT = 'RESET_DELETED_EVENT';
-
+export const RESET_ACTIVE_EVENT = 'RESET_ACTIVE_EVENT';
 export function getEvents(tokenFromStorage) {
   const request = axios({
     method: 'get',
@@ -134,5 +134,11 @@ export function deleteEventFailure(error) {
 export function resetDeletedEvent() {
   return {
     type: RESET_DELETED_EVENT
+  }
+};
+
+export function resetActiveEvent() {
+  return {
+    type: RESET_ACTIVE_EVENT
   }
 };

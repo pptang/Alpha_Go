@@ -7,7 +7,7 @@ import (
   "log"
 )
 
-func CreateEvent(title string, description string, place_options []string,
+func CreateEvent(title string, description string, place_options []schema.PlaceOption,
                   date string, holder_id int64) error {
 
   insert, insertErr := database.Dbmap.Exec(`INSERT INTO event (title, description, date, holder_id, created_at)
@@ -28,13 +28,13 @@ func CreateEvent(title string, description string, place_options []string,
 
 }
 
-func InsertEventPlaceOptions(event_id int64, place_options []string) error {
+func InsertEventPlaceOptions(event_id int64, place_options []schema.PlaceOption) error {
 
   created_at := time.Now().UnixNano()
   var err error
   for _, option := range place_options {
     newPlaceOption := schema.PlaceOption {
-      Title: option,
+      Title: option.Title,
       EventId: event_id,
       Created: created_at,
     }
@@ -68,9 +68,22 @@ func FindAllEvents() ([]schema.Event, error){
 func FindEventById(event_id string) (schema.Event, error){
 
   var event schema.Event
-  err := database.Dbmap.SelectOne(&event, "select * from event where id=?", event_id)
+  errFromEvent := database.Dbmap.SelectOne(&event, "select * from event where id=?", event_id)
+  if errFromEvent != nil {
+    return event, errFromEvent
+  } else {
+    var placeOptions []schema.PlaceOption
+    _, errFromPlaceOptions := database.Dbmap.Select(&placeOptions, "select * from place_option where event_id=?", event_id)
 
-  return event, err
+    event.PlaceOptions = placeOptions
+
+    if errFromPlaceOptions != nil {
+      return event, errFromPlaceOptions
+    }
+  }
+
+
+  return event, nil
 }
 
 func DeleteEventById(event_id string) error {

@@ -3,7 +3,7 @@ import {
   NEW_EVENT, NEW_EVENT_SUCCESS, NEW_EVENT_FAILURE,
   RESET_EVENT_STATE, GET_EVENT_BY_ID, GET_EVENT_BY_ID_SUCCESS,
   GET_EVENT_BY_ID_FAILURE, DELETE_EVENT_BY_ID, DELETE_EVENT_BY_ID_SUCCESS,
-  DELETE_EVENT_BY_ID_FAILURE, RESET_DELETED_EVENT
+  DELETE_EVENT_BY_ID_FAILURE, RESET_DELETED_EVENT, RESET_ACTIVE_EVENT
 } from '../actions/events';
 
 var moment = require('moment');
@@ -50,6 +50,8 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, deletedEvent: {event: null, error: error, loading: false}};
     case RESET_DELETED_EVENT:
       return { ...state, deletedEvent: {event: null, error: null, loading: false}};
+    case RESET_ACTIVE_EVENT:
+      return { ...state, activeEvent: {event: null, error: null, loading: false}};
     default:
       return state;
   }
