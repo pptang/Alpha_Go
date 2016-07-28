@@ -26,11 +26,16 @@ class EventList extends Component {
 
     return events.map((event) => {
       return (
-          <li className="list-group-item" key={event.id}>
+        <tr>
+          <td>
             <Link style={{color: 'black'}} to={"event/" + event.id}>
-              <h3 className="list-group-item-heading">{event.title}</h3>
+              {event.title}
             </Link>
-          </li>
+          </td>
+          <td>
+            {event.description}
+          </td>
+        </tr>
       );
     });
 
@@ -51,9 +56,17 @@ class EventList extends Component {
     return (
       <div className="container">
         <h1>Outing Events</h1>
-        <ul className="list-group">
-          {this.renderEvents(events)}
-        </ul>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>Event Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.renderEvents(events)}
+          </tbody>
+        </table>
       </div>
     );
   }

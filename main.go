@@ -45,6 +45,7 @@ func main() {
 	r.Use(static.Serve("/signin", static.LocalFile("./public", true)))
 	r.Use(static.Serve("/signup", static.LocalFile("./public", true)))
 	r.Use(static.Serve("/events/new", static.LocalFile("./public", true)))
+	r.Use(static.Serve("/getEvent/:eventId", static.LocalFile("./public", true)))
 
 	v1 := r.Group("api/v1")
 	{
@@ -53,7 +54,8 @@ func main() {
 		v1.GET("/getUser", controllers.GetUserInfo)
 		v1.POST("/events", authMiddleware(), controllers.NewOutingEvent)
 		v1.GET("/getAllEvents", authMiddleware(), controllers.GetAllEvents)
-		v1.GET("/getEvent/:eventId", authMiddleware(), controllers.GetEventById)
+		v1.GET("/getEvent/:eventId", controllers.GetEventById)
+		v1.DELETE("/events/:eventId", authMiddleware(), controllers.DeleteEventById)
 	}
 
 	r.Run(":8080")

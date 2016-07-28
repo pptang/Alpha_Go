@@ -9,13 +9,13 @@ class EventShow extends Component {
   };
 
   componentWillMount() {
-
+    console.log("EventSHow mount");
   }
 
   render() {
     return (
       <div className='container'>
-        // <Header type="posts_show" postId={this.props.params.id}/>
+        <Header type="event_detail" eventId={this.props.params.id}/>
         <EventDetailsContainer id={this.props.params.id}/>
       </div>
     );

@@ -72,3 +72,8 @@ func FindEventById(event_id string) (schema.Event, error){
 
   return event, err
 }
+
+func DeleteEventById(event_id string) error {
+  _, err := database.Dbmap.Exec("delete from event where id=?", event_id)
+  return err
+}

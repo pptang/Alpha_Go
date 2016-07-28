@@ -14,6 +14,11 @@ export const GET_EVENT_BY_ID = 'GET_EVENT_BY_ID';
 export const GET_EVENT_BY_ID_SUCCESS = 'GET_EVENT_BY_ID_SUCCESS';
 export const GET_EVENT_BY_ID_FAILURE = 'GET_EVENT_BY_ID_FAILURE';
 
+export const DELETE_EVENT_BY_ID = 'DELETE_EVENT_BY_ID';
+export const DELETE_EVENT_BY_ID_SUCCESS = 'DELETE_EVENT_BY_ID_SUCCESS';
+export const DELETE_EVENT_BY_ID_FAILURE = 'DELETE_EVENT_BY_ID_FAILURE';
+export const RESET_DELETED_EVENT = 'RESET_DELETED_EVENT';
+
 export function getEvents(tokenFromStorage) {
   const request = axios({
     method: 'get',
@@ -74,6 +79,7 @@ export function resetEventState() {
 }
 
 export function getEventById(eventId, tokenFromStorage) {
+  console.log("getEventById::" + tokenFromStorage);
   const request = axios({
     method: 'get',
     url: `${ROOT_URL}api/v1/getEvent/${eventId}`,
@@ -98,3 +104,35 @@ export function getEventByIdFailure(error) {
     payload: error
   };
 }
+
+export function deleteEvent(id, tokenFromStorage) {
+  const request = axios({
+    method: 'delete',
+    url: `${ROOT_URL}api/v1/events/${id}`,
+    headers: {'Authorization': `Bearer ${tokenFromStorage}`}
+  });
+  return {
+    type: DELETE_EVENT_BY_ID,
+    payload: request
+  };
+}
+
+export function deleteEventSuccess(deletedPost) {
+  return {
+    type: DELETE_EVENT_BY_ID_SUCCESS,
+    payload: deletedPost
+  };
+}
+
+export function deleteEventFailure(error) {
+  return {
+    type: DELETE_EVENT_BY_ID_FAILURE,
+    payload: error
+  };
+}
+
+export function resetDeletedEvent() {
+  return {
+    type: RESET_DELETED_EVENT
+  }
+};

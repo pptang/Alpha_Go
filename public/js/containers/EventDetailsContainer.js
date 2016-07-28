@@ -14,7 +14,9 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = (dispatch) => {
   return {
   	 getEventById: (id) => {
-       dispatch(getEventById(id))
+       console.log("getEventy:::");
+       let token = sessionStorage.getItem('jwtToken');
+       dispatch(getEventById(id, token))
           .then((response) => {
 
             let data = response.payload.data

@@ -13,7 +13,10 @@ class EventDetails extends Component {
   }
 
   componentDidMount() {
+    console.log("EventDetails mount before getEventByID");
     this.props.getEventById(this.props.eventId);
+    console.log("EventDetails mount after getEventByID");
+
   }
 
 

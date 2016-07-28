@@ -3,6 +3,25 @@ import { Link } from 'react-router';
 
 class Header extends Component {
 
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
+  componentWillUnmount() {
+
+     this.props.resetDeletedEvent();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.deletedEvent.error && nextProps.deletedEvent.error.message) {//delete failure
+      alert(nextProps.deletedEvent.error.message || 'Could not delete. Please try again.');
+    } else if(nextProps.deletedEvent.event && !nextProps.deletedEvent.error) {//delete success
+      this.context.router.push('/');
+    } else if(this.props.user && !nextProps.user) {
+      this.context.router.push('/');
+    }
+  }
+
   renderSignInLinks(authenticatedUser) {
     if (authenticatedUser) {
       return (
@@ -69,6 +88,26 @@ class Header extends Component {
             {this.renderSignInLinks(authenticatedUser)}
           </div>
         );
+      case 'event_detail':
+  			return (
+  			     <div className="container">
+    		       <ul className="nav nav-pills navbar-left">
+      			      <li style={{paddingRight: '10px'}} style={{color:'#337ab7',  fontSize: '17px'}}  role="presentation">
+                    <Link className="text-xs-right" style={{color: '#33ab7', fontSize: '17px'}} to="/">
+                      Back To Home
+                    </Link>
+                  </li>
+    			     </ul>
+
+    			     <div className="navbar-form navbar-right" style={{paddingRight: '50px'}}>
+      			      <button className="btn btn-warning pull-xs-right"  onClick={()=> {this.props.onDeleteClick()}}>
+                    Delete Event
+                  </button>
+      		     </div>
+               {this.renderSignInLinks(authenticatedUser)}
+    	       </div>
+  		  );
+
       default:
         return (
           <div>

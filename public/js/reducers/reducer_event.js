@@ -2,7 +2,8 @@ import {
   GET_EVENTS, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE,
   NEW_EVENT, NEW_EVENT_SUCCESS, NEW_EVENT_FAILURE,
   RESET_EVENT_STATE, GET_EVENT_BY_ID, GET_EVENT_BY_ID_SUCCESS,
-  GET_EVENT_BY_ID_FAILURE
+  GET_EVENT_BY_ID_FAILURE, DELETE_EVENT_BY_ID, DELETE_EVENT_BY_ID_SUCCESS,
+  DELETE_EVENT_BY_ID_FAILURE, RESET_DELETED_EVENT
 } from '../actions/events';
 
 var moment = require('moment');
@@ -10,7 +11,8 @@ var moment = require('moment');
 const INITIAL_STATE = {
   eventList: { events: [], error: null, loading: false},
   newEvent: { event: {date: moment()}, error: null, loading: false},
-  activeEvent: { event: null, error: null, loading: false}
+  activeEvent: { event: null, error: null, loading: false},
+  deletedEvent: { event: null, error: null, loading: false}
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -39,6 +41,15 @@ export default function(state = INITIAL_STATE, action) {
     case GET_EVENT_BY_ID_FAILURE:
       error = action.payload.data.error || {message: action.payload.message};
       return { ...state, activeEvent: {event: null, error: error, loading: false}};
+    case DELETE_EVENT_BY_ID:
+      return { ...state, deletedEvent: {...state.deletedEvent, loading: true}};
+    case DELETE_EVENT_BY_ID_SUCCESS:
+      return { ...state, deletedEvent: {event: action.payload.data.event, error: null, loading: false}};
+    case DELETE_EVENT_BY_ID_FAILURE:
+      error = action.payload.data.error || {message: action.payload.message};
+      return { ...state, deletedEvent: {event: null, error: error, loading: false}};
+    case RESET_DELETED_EVENT:
+      return { ...state, deletedEvent: {event: null, error: null, loading: false}};
     default:
       return state;
   }
