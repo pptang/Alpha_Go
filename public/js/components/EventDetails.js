@@ -1,10 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import CheckBox from './CheckBox.js';
 
 class EventDetails extends Component {
   static contextTypes = {
     router: PropTypes.object
   };
+
+  componentWillMount() {
+    this.setState({
+      place_options: []
+    });
+  }
 
   componentWillUnmount() {
 
@@ -17,18 +24,68 @@ class EventDetails extends Component {
 
   }
 
-  renderOptions(place_options) {
-    return place_options.map((option) => {
+  componentWillReceiveProps(nextProps) {
+
+    if (!this.props.activeEvent.event && nextProps.activeEvent.event) {
+      console.log("componentWillReceiveProps")
+      this.setState({
+        place_options: nextProps.activeEvent.event.place_options.map((option) => {
+          return {...option, checked: false};
+        })
+      });
+    }
+  }
+
+  handleCheck = (id) => {
+
+    return () => {
+      {/*this.setState({
+        place_options: this.state.place_options.map((option) => {
+          if (option.id === id) {
+
+            return {...option, checked: !option.checked};
+          }
+          return option;
+        })
+      }); */}
+      this.setState((prevState, props) => {
+        return {
+          place_options: prevState.place_options.map((option) => {
+
+
+            if (option.id === id) {
+
+              return {...option, checked: !option.checked};
+            }
+            return option;
+          })
+
+        };
+
+      });
+    }
+
+  }
+
+  renderOptions() {
+
+    return this.state.place_options.map((option) => {
       return (
         <li className="list-group-item">
-          {option.title}
+          <CheckBox isChecked={option.checked} handleCheck={this.handleCheck(option.id)} title={option.title} />
         </li>
       );
     });
   }
 
+  handleVote = () => {
+    this.props.voteForOptions(this.state.place_options.filter((option) => option.checked)
+                                                      .map((option) => option.id));
+    
+  }
 
   render() {
+
     const { event, loading, error } = this.props.activeEvent;
     if (loading) {
       return <div className="container">Loading...</div>;
@@ -54,8 +111,9 @@ class EventDetails extends Component {
           <div>
             <h4>Options</h4>
             <ul className="list-group">
-              {this.renderOptions(event.place_options)}
+              {this.renderOptions()}
             </ul>
+            <button type="button" className="btn btn-default" onClick={this.handleVote}>Vote</button>
           </div>
         </div>
       </div>

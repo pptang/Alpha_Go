@@ -19,6 +19,11 @@ export const DELETE_EVENT_BY_ID_SUCCESS = 'DELETE_EVENT_BY_ID_SUCCESS';
 export const DELETE_EVENT_BY_ID_FAILURE = 'DELETE_EVENT_BY_ID_FAILURE';
 export const RESET_DELETED_EVENT = 'RESET_DELETED_EVENT';
 export const RESET_ACTIVE_EVENT = 'RESET_ACTIVE_EVENT';
+
+export const VOTE_FOR_OPTIONS = 'VOTE_FOR_OPTIONS';
+export const VOTE_FOR_OPTIONS_SUCCESS = 'VOTE_FOR_OPTIONS_SUCCESS';
+export const VOTE_FOR_OPTIONS_FAILURE = 'VOTE_FOR_OPTIONS_FAILURE';
+
 export function getEvents(tokenFromStorage) {
   const request = axios({
     method: 'get',
@@ -142,3 +147,32 @@ export function resetActiveEvent() {
     type: RESET_ACTIVE_EVENT
   }
 };
+
+export function voteForOptions(options, tokenFromStorage) {
+
+  const request = axios({
+    method: 'post',
+    data: options,
+    url: `${ROOT_URL}api/v1/voteForOptions`,
+    headers: {'Authorization': `Bearer ${tokenFromStorage}`}
+  });
+
+  return {
+    type: VOTE_FOR_OPTIONS,
+    payload: request
+  }
+}
+
+export function voteForOptionsSuccess(isVoted) {
+  return {
+    type: VOTE_FOR_OPTIONS_SUCCESS,
+    payload: isVoted
+  }
+}
+
+export function voteForOptionsFailure(error) {
+  return {
+    type: VOTE_FOR_OPTIONS_FAILURE,
+    payload: error
+  }
+}

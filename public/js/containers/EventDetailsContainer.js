@@ -1,5 +1,5 @@
 import EventDetails from '../components/EventDetails.js';
-import { getEventById, getEventByIdSuccess, getEventByIdFailure, resetActiveEvent, resetDeletedEvent} from '../actions/events';
+import { getEventById, getEventByIdSuccess, getEventByIdFailure, resetActiveEvent, resetDeletedEvent, voteForOptions, voteForOptionsSuccess, voteForOptionsFailure} from '../actions/events';
 import { connect } from 'react-redux';
 
 
@@ -14,7 +14,7 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = (dispatch) => {
   return {
   	 getEventById: (id) => {
-       console.log("getEventy:::");
+
        let token = sessionStorage.getItem('jwtToken');
        dispatch(getEventById(id, token))
           .then((response) => {
@@ -31,7 +31,22 @@ const mapDispatchToProps = (dispatch) => {
 
         dispatch(resetActiveEvent());
         dispatch(resetDeletedEvent());
+     },
+
+     voteForOptions: (options) => {
+       let token = sessionStorage.getItem('jwtToken');
+       dispatch(voteForOptions(options, token))
+          .then((response) => {
+
+            let data = response.payload.data
+            if (response.payload.status != 200) {
+              dispatch(voteForOptionsFailure(response.payload));
+            } else {
+              dispatch(voteForOptionsSuccess(response.payload));
+            }
+          });
      }
+
   };
 }
 

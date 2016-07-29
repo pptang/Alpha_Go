@@ -1,15 +1,17 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/contrib/static"
-	"Alpha_Go/database"
 	"Alpha_Go/controllers"
-	"strings"
+	"Alpha_Go/database"
 	"Alpha_Go/utils"
-	"reflect"
 	"log"
+	"reflect"
+	"strings"
+
+	"github.com/gin-gonic/contrib/static"
+	"github.com/gin-gonic/gin"
 )
+
 // func TestHandler(c *gin.Context) {
 // 	c.JSON(200, gin.H{"message": "success"})
 // }
@@ -40,7 +42,7 @@ func main() {
 
 	r := gin.Default()
 
- 	// workaround for refresh issue
+	// workaround for refresh issue
 	r.Use(static.Serve("/", static.LocalFile("./public", true)))
 	r.Use(static.Serve("/signin", static.LocalFile("./public", true)))
 	r.Use(static.Serve("/signup", static.LocalFile("./public", true)))
@@ -54,8 +56,9 @@ func main() {
 		v1.GET("/getUser", controllers.GetUserInfo)
 		v1.POST("/events", authMiddleware(), controllers.NewOutingEvent)
 		v1.GET("/getAllEvents", authMiddleware(), controllers.GetAllEvents)
-		v1.GET("/getEvent/:eventId", controllers.GetEventById)
+		v1.GET("/getEvent/:eventId", authMiddleware(), controllers.GetEventById)
 		v1.DELETE("/events/:eventId", authMiddleware(), controllers.DeleteEventById)
+		v1.POST("/voteForOptions", authMiddleware(), controllers.VoteForOptions)
 	}
 
 	r.Run(":8080")

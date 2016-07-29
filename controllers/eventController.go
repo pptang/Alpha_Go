@@ -1,10 +1,11 @@
 package controllers
 
 import (
-  "Alpha_Go/models"
-	"github.com/gin-gonic/gin"
+	"Alpha_Go/models"
 	"Alpha_Go/schema"
 	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 func NewOutingEvent(c *gin.Context) {
@@ -14,7 +15,7 @@ func NewOutingEvent(c *gin.Context) {
 	user_id, _ := c.Get("user_id")
 
 	err := models.CreateEvent(event.Title, event.Description,
-													event.PlaceOptions, event.Date, int64(user_id.(float64)))
+		event.PlaceOptions, event.Date, int64(user_id.(float64)))
 	log.Println(err)
 	if err == nil {
 		c.JSON(200, gin.H{"event": event})
@@ -66,5 +67,9 @@ func DeleteEventById(c *gin.Context) {
 	} else {
 		c.JSON(401, gin.H{"error": true, "message": "Must pass event id"})
 	}
+
+}
+
+func VoteForOptions(c *gin.Context) {
 
 }
