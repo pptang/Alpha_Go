@@ -1,11 +1,12 @@
 package database
 
 import (
+	"Alpha_Go/schema"
 	"database/sql"
+	"log"
+
 	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/gorp.v1"
-	"log"
-	"Alpha_Go/schema"
 )
 
 var (
@@ -20,6 +21,7 @@ func InitDb() {
 	Dbmap.AddTableWithName(schema.User{}, "user").SetKeys(true, "Id")
 	Dbmap.AddTableWithName(schema.Event{}, "event").SetKeys(true, "Id")
 	Dbmap.AddTableWithName(schema.PlaceOption{}, "place_option").SetKeys(true, "Id")
+	Dbmap.AddTableWithName(schema.Vote{}, "vote").SetKeys(true, "Id")
 	err = Dbmap.CreateTablesIfNotExists()
 	checkErr(err, "Create table failed")
 

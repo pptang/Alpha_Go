@@ -71,5 +71,16 @@ func DeleteEventById(c *gin.Context) {
 }
 
 func VoteForOptions(c *gin.Context) {
+	var vote schema.Vote
+	c.BindJSON(&vote)
 
+	user_id, _ := c.Get("user_id")
+
+	err := models.CreateVote(vote.EventId, vote.Options, int64(user_id.(float64)))
+	log.Println(err)
+	if err == nil {
+		c.JSON(200, gin.H{"isVoted": true})
+	} else {
+		c.JSON(500, gin.H{"error": true, "message": err.Error()})
+	}
 }
