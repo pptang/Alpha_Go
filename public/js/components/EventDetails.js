@@ -67,8 +67,26 @@ class EventDetails extends Component {
 
   }
 
-  renderOptions() {
+  renderOptionDiv() {
+    console.log("renderOptionsDIV::" + JSON.stringify(this.props.activeEvent))
+    if (this.props.activeEvent.event.isVoted) {
+      return (
+        <h2>Has already Voted</h2>
+      );
+    } else {
+      return (
+        <div>
+          <ul className="list-group">
+            {this.renderOptions()}
+          </ul>
+          <button type="button" className="btn btn-default" onClick={this.handleVote}>Vote</button>
+        </div>
+      );
+    }
+  }
 
+  renderOptions() {
+    console.log("renderOptions::" + JSON.stringify(this.props.activeEvent))
     return this.state.place_options.map((option) => {
       return (
         <li className="list-group-item">
@@ -76,15 +94,22 @@ class EventDetails extends Component {
         </li>
       );
     });
+
   }
 
   handleVote = () => {
-    this.props.voteForOptions(this.state.place_options.filter((option) => option.checked)
-                                                      .map((option) => option.id));
-    
+    var sendBody = {
+      options: this.state.place_options.filter((option) => option.checked)
+                                        .map((option) => option.id),
+      event_id: this.props.activeEvent.event.id
+    };
+    this.props.voteForOptions(sendBody);
+
   }
 
   render() {
+
+    console.log("renderEventDetails")
 
     const { event, loading, error } = this.props.activeEvent;
     if (loading) {
@@ -110,10 +135,8 @@ class EventDetails extends Component {
           </div>
           <div>
             <h4>Options</h4>
-            <ul className="list-group">
-              {this.renderOptions()}
-            </ul>
-            <button type="button" className="btn btn-default" onClick={this.handleVote}>Vote</button>
+            {this.renderOptionDiv()}
+
           </div>
         </div>
       </div>

@@ -150,6 +150,8 @@ export function resetActiveEvent() {
 
 export function voteForOptions(options, tokenFromStorage) {
 
+  console.log(JSON.stringify(options))
+
   const request = axios({
     method: 'post',
     data: options,
@@ -163,10 +165,10 @@ export function voteForOptions(options, tokenFromStorage) {
   }
 }
 
-export function voteForOptionsSuccess(isVoted) {
+export function voteForOptionsSuccess(response) {
   return {
     type: VOTE_FOR_OPTIONS_SUCCESS,
-    payload: isVoted
+    payload: response
   }
 }
 

@@ -37,10 +37,10 @@ func GetAllEvents(c *gin.Context) {
 
 func GetEventById(c *gin.Context) {
 	event_id := c.Param("eventId")
-
+	user_id, _ := c.Get("user_id")
 	// event_id := c.Query("eventId")
 	if event_id != "" {
-		event, err := models.FindEventById(event_id)
+		event, err := models.FindEventById(event_id, int64(user_id.(float64)))
 
 		if err == nil {
 			c.JSON(200, gin.H{"event": event})

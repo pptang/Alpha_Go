@@ -15,6 +15,7 @@ type Event struct {
 	Date         string        `db:"date" json:"date"`
 	HolderId     int64         `db:"holder_id" json:"holder_id"`
 	Created      int64         `db:"created_at" json:"created_at"`
+	IsVoted      bool          `db:"-" json:"isVoted"`
 }
 
 type PlaceOption struct {
