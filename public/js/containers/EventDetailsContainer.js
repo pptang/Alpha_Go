@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
        let token = sessionStorage.getItem('jwtToken');
        dispatch(getEventById(id, token))
           .then((response) => {
-            console.log("event::::" + JSON.stringify(response.payload.data.event));
+
             let data = response.payload.data
             if (response.payload.status != 200) {
               dispatch(getEventByIdFailure(response.payload));

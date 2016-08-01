@@ -82,8 +82,6 @@ func FindEventById(event_id string, user_id int64) (schema.Event, error) {
 
 	event.PlaceOptions = placeOptions
 
-	//TODO: find if userId exists in vote table and hook to the event
-
 	count, errFromVote := database.Dbmap.SelectInt("select count(*) from vote where user_id=? and event_id=?", user_id, event_id)
 
 	if errFromVote != nil {
@@ -96,6 +94,14 @@ func FindEventById(event_id string, user_id int64) (schema.Event, error) {
 	} else {
 		event.IsVoted = false
 	}
+
+	updatedPlaceOptions, errFromVoteCount := GetVoteCountsForOption(event_id, placeOptions)
+
+	if errFromVoteCount != nil {
+		return event, errFromVoteCount
+	}
+
+	event.PlaceOptions = updatedPlaceOptions
 
 	return event, nil
 }

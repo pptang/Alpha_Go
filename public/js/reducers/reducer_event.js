@@ -56,7 +56,7 @@ export default function(state = INITIAL_STATE, action) {
     case VOTE_FOR_OPTIONS:
       return { ...state, activeEvent: {...state.activeEvent, loading:true}};
     case VOTE_FOR_OPTIONS_SUCCESS:
-      return { ...state, activeEvent: { event: {...state.activeEvent.event, isVoted: action.payload.data.isVoted}, error: null, loading: false}};
+      return { ...state, activeEvent: { event: {...state.activeEvent.event, place_options: action.payload.data.placeOptions, isVoted: action.payload.data.isVoted}, error: null, loading: false}};
     case VOTE_FOR_OPTIONS_FAILURE:
       error = action.payload.data.error || {message: action.payload.message};
       return { ...state, activeEvent: {...state.activeEvent, error: error, loading: false}};

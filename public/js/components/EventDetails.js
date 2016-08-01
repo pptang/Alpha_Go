@@ -34,6 +34,15 @@ class EventDetails extends Component {
         })
       });
     }
+
+    if (this.props.activeEvent.event && !this.props.activeEvent.event.isVoted && nextProps.activeEvent.event.isVoted) {
+      this.setState({
+        place_options: nextProps.activeEvent.event.place_options.map((option) => {
+          return {...option, checked: false};
+        })
+      });
+    }
+
   }
 
   handleCheck = (id) => {
@@ -68,16 +77,23 @@ class EventDetails extends Component {
   }
 
   renderOptionDiv() {
-    console.log("renderOptionsDIV::" + JSON.stringify(this.props.activeEvent))
+    console.log(JSON.stringify(this.props.activeEvent))
+    console.log(JSON.stringify(this.state.place_options))
     if (this.props.activeEvent.event.isVoted) {
       return (
-        <h2>Has already Voted</h2>
+        <div>
+          <ul className="list-group">
+            {this.renderOptions(false)}
+          </ul>
+          <h3>Has already Voted</h3>
+        </div>
+
       );
     } else {
       return (
         <div>
           <ul className="list-group">
-            {this.renderOptions()}
+            {this.renderOptions(true)}
           </ul>
           <button type="button" className="btn btn-default" onClick={this.handleVote}>Vote</button>
         </div>
@@ -85,12 +101,14 @@ class EventDetails extends Component {
     }
   }
 
-  renderOptions() {
-    console.log("renderOptions::" + JSON.stringify(this.props.activeEvent))
+  renderOptions(shouldShowCheckbox) {
+
     return this.state.place_options.map((option) => {
       return (
         <li className="list-group-item">
-          <CheckBox isChecked={option.checked} handleCheck={this.handleCheck(option.id)} title={option.title} />
+          <span className="badge">{option.count}</span>
+          <CheckBox isChecked={option.checked} handleCheck={this.handleCheck(option.id)}
+            title={option.title} shouldShowCheckbox={shouldShowCheckbox} />
         </li>
       );
     });
@@ -109,7 +127,6 @@ class EventDetails extends Component {
 
   render() {
 
-    console.log("renderEventDetails")
 
     const { event, loading, error } = this.props.activeEvent;
     if (loading) {

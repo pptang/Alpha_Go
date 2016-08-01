@@ -4,14 +4,27 @@ class CheckBox extends Component {
 
   render() {
 
-    const { isChecked, handleCheck, title } = this.props;
+    const { isChecked, handleCheck, title, shouldShowCheckbox } = this.props;
 
-    return (
-      <div>
-        <input type="checkbox" checked={isChecked} onChange={handleCheck} />
-        <span>{title}</span>
-      </div>
-    );
+    if (shouldShowCheckbox) {
+      return (
+        <div className="input-group">
+          <div className="input-group-addon">
+            <input type="checkbox" checked={isChecked} onChange={handleCheck} />
+          </div>
+          {title}
+        </div>
+
+      );
+    } else {
+      return (
+        <div>
+          {title}
+        </div>
+      );
+    }
+
+
   }
 }
 
