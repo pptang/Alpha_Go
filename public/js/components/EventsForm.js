@@ -24,7 +24,8 @@ class EventsForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log("nextProps::" + JSON.stringify(nextProps))
+
+    console.log("nextProps::" + JSON.stringify(nextProps))
     if (nextProps.newEvent.event && nextProps.newEvent.event.title && !nextProps.newEvent.error) {
       this.context.router.push('/');
       this.props.resetState();
@@ -36,13 +37,13 @@ class EventsForm extends Component {
 
   }
 
-  handleCreate = () => {
+  handleCreate = (newOption) => {
 
     this.setState((prevState, props) => {
-      this.props.fields.place_options.onChange([...prevState.place_options, {title: this.state.editText}]);
+      this.props.fields.place_options.onChange([...prevState.place_options, {title: newOption}]);
       return {
         editText: '',
-        place_options: [...prevState.place_options, {title: this.state.editText}]
+        place_options: [...prevState.place_options, {title: newOption}]
       };
     });
 
@@ -67,8 +68,19 @@ class EventsForm extends Component {
     });
   }
 
+  renderAttractions = () => {
+    console.log(JSON.stringify(this.props.newEvent.attractions))
+    return this.props.newEvent.attractions.map((attraction, index) => {
+      return (
+          <span className="label label-primary" key={index} onClick={() => this.handleCreate(attraction)}>
+            {attraction}
+          </span>
+      );
+    });
+  }
+
   render() {
-    const { fields: { title, description, date, place_options }, handleSubmit, submitting } = this.props;
+    const { fields: { title, description, date, place_options }, handleSubmit, submitting, generateOptions } = this.props;
     if (!date.value) {
 
       date.onChange(moment());
@@ -100,11 +112,15 @@ class EventsForm extends Component {
           </div>
 
           <div className="form-group">
-            <label className="control-label">Create Options</label>
+            <p>
+              <label className="control-label">Create Options</label>
+              <button type="button" className="btn btn-success btn-sm" onClick={generateOptions} >Generate</button>
+              {this.renderAttractions()}
+            </p>
             <div className="input-group">
               <input type="text" className="form-control" value={this.state.editText} onChange={(event) => this.setState({editText: event.target.value})}/>
               <span className="input-group-btn">
-                <button type="button" className="btn btn-default" onClick={() => this.handleCreate()}>Create</button>
+                <button type="button" className="btn btn-default" onClick={() => this.handleCreate(this.state.editText)}>Create</button>
               </span>
             </div>
           </div>

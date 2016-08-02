@@ -3,6 +3,9 @@ import {
   newEvent, newEventSuccess, newEventFailure,
   resetEventState
 } from '../actions/events';
+import {
+  generateOptions
+} from '../actions/utils';
 
 import { reduxForm } from 'redux-form';
 
@@ -56,11 +59,14 @@ const validateAndCreateEvent = (values, dispatch) => {
   })
 };
 
-
 const mapDispatchToProps = (dispatch) => {
   return {
     createEvent: validateAndCreateEvent,
-    resetState: () => {dispatch(resetEventState());}
+    resetState: () => {dispatch(resetEventState());},
+    generateOptions: () => {
+      dispatch(generateOptions());
+
+    }
   };
 };
 
