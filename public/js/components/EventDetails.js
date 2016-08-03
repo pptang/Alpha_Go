@@ -11,11 +11,13 @@ class EventDetails extends Component {
     this.setState({
       place_options: []
     });
+
   }
 
   componentWillUnmount() {
 
      this.props.resetEvent();
+     this.props.resetDeletedEvent();
   }
 
   componentDidMount() {
@@ -26,8 +28,14 @@ class EventDetails extends Component {
 
   componentWillReceiveProps(nextProps) {
 
+    if(nextProps.deletedEvent.error && nextProps.deletedEvent.error.message) {//delete failure
+      alert(nextProps.deletedEvent.error.message || 'Could not delete. Please try again.');
+    } else if(nextProps.deletedEvent.event && !nextProps.deletedEvent.error) {//delete success
+      this.context.router.push('/');
+    }
+
     if (!this.props.activeEvent.event && nextProps.activeEvent.event) {
-      console.log("componentWillReceiveProps")
+
       this.setState({
         place_options: nextProps.activeEvent.event.place_options.map((option) => {
           return {...option, checked: false};
@@ -41,6 +49,17 @@ class EventDetails extends Component {
           return {...option, checked: false};
         })
       });
+    }
+
+  }
+
+  renderDeleteEventBtn() {
+    if (this.props.activeEvent.event.holder_id === this.props.user.id) {
+      return (
+        <button className="btn btn-warning pull-xs-right"  onClick={()=> {this.props.onDeleteClick()}}>
+          Delete Event
+        </button>
+      );
     }
 
   }
@@ -139,6 +158,7 @@ class EventDetails extends Component {
 
     return (
       <div className="container-fluid text-center">
+
         <h2>{event.title}</h2>
         <br/>
         <div className="row slideanim">
@@ -155,7 +175,9 @@ class EventDetails extends Component {
             {this.renderOptionDiv()}
 
           </div>
+          {this.renderDeleteEventBtn()}
         </div>
+
       </div>
     );
   }

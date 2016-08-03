@@ -33,3 +33,12 @@ type Vote struct {
 	OptionId int64   `db:"option_id" json:"-"`
 	UserId   int64   `db:"user_id" json:"user_id"`
 }
+
+type Bill struct {
+	Id         int64 `db:"id" json:"id"`
+	EventId    int64 `db:"event_id" json:"event_id"`
+	UserId     int64 `db:"user_id" json:"user_id"`
+	CreditorId int64 `db:"creditor_id" json:"creditor_id"`
+	Amount     int64 `db:"amount" json:"amount"`
+	IsCleared  bool  `db:"is_cleared" json:"is_cleared"`
+}

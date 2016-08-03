@@ -1,24 +1,25 @@
 package models
 
 import (
-	"time"
-	"golang.org/x/crypto/bcrypt"
 	"Alpha_Go/database"
 	"Alpha_Go/schema"
+	"Alpha_Go/utils"
 	"errors"
 	"log"
-	"Alpha_Go/utils"
+	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func CreateUser(email string, pwd string) (*schema.User, string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
-	if (err == nil) {
+	if err == nil {
 		if insert, insertErr := database.Dbmap.Exec(`INSERT INTO user (email, password, created_at)
 										VALUES (?, ?, ?)`, email, hash, time.Now().UnixNano()); insert != nil {
 
 			user_id, _ := insert.LastInsertId()
-			newUser := &schema.User {
-				Id: user_id,
+			newUser := &schema.User{
+				Id:    user_id,
 				Email: email,
 			}
 
@@ -52,7 +53,8 @@ func FindUserByEmailAndPassword(email string, pwd string) (*schema.User, string,
 
 			tokenString := utils.GenerateJwt(user.Id, email)
 
-			currentUser := &schema.User {
+			currentUser := &schema.User{
+				Id:    user.Id,
 				Email: email,
 			}
 			return currentUser, tokenString, nil

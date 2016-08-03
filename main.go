@@ -59,6 +59,7 @@ func main() {
 		v1.GET("/getEvent/:eventId", authMiddleware(), controllers.GetEventById)
 		v1.DELETE("/events/:eventId", authMiddleware(), controllers.DeleteEventById)
 		v1.POST("/voteForOptions", authMiddleware(), controllers.VoteForOptions)
+		v1.GET("/test", controllers.Test)
 	}
 
 	r.Run(":8080")

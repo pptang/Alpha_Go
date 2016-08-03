@@ -1,17 +1,23 @@
 import EventDetails from '../components/EventDetails.js';
-import { getEventById, getEventByIdSuccess, getEventByIdFailure, resetActiveEvent, resetDeletedEvent, voteForOptions, voteForOptionsSuccess, voteForOptionsFailure} from '../actions/events';
+import { getEventById, getEventByIdSuccess, getEventByIdFailure,
+  resetActiveEvent, resetDeletedEvent, voteForOptions, voteForOptionsSuccess,
+  voteForOptionsFailure, deleteEvent, deleteEventSuccess, deleteEventFailure}
+  from '../actions/events';
+
 import { connect } from 'react-redux';
 
 
 
 function mapStateToProps(state, ownProps) {
   return {
+    deletedEvent: state.EventReducer.deletedEvent,
     activeEvent: state.EventReducer.activeEvent,
+    user: state.UserReducer.user,
     eventId: ownProps.id
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
   	 getEventById: (id) => {
 
@@ -27,15 +33,42 @@ const mapDispatchToProps = (dispatch) => {
             }
           });
   	 },
-     resetEvent: () =>{
+     onDeleteClick: () => {
 
-        dispatch(resetActiveEvent());
-        dispatch(resetDeletedEvent());
-     },
-
-     voteForOptions: (options) => {
        let token = sessionStorage.getItem('jwtToken');
-       dispatch(voteForOptions(options, token))
+
+       if (!token || token === '') {
+         let error = {error: true, message: 'Please Sign In'};
+         dispatch(deleteEventFailure(error));
+         return;
+       }
+
+     	dispatch(deleteEvent(ownProps.eventId, token))
+       	.then((response) => {
+           if (response.payload.status != 200) {
+             dispatch(deleteEventFailure(response.payload));
+
+           } else {
+             dispatch(deleteEventSuccess(response.payload));
+
+           }
+       });
+
+   	},
+    resetDeletedEvent: () => {
+
+      dispatch(resetDeletedEvent());
+
+    },
+    resetEvent: () =>{
+
+      dispatch(resetActiveEvent());
+      dispatch(resetDeletedEvent());
+    },
+
+    voteForOptions: (options) => {
+      let token = sessionStorage.getItem('jwtToken');
+      dispatch(voteForOptions(options, token))
           .then((response) => {
 
             let data = response.payload.data
@@ -45,7 +78,7 @@ const mapDispatchToProps = (dispatch) => {
               dispatch(voteForOptionsSuccess(response.payload));
             }
           });
-     }
+    }
 
   };
 }

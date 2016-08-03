@@ -22,6 +22,7 @@ func InitDb() {
 	Dbmap.AddTableWithName(schema.Event{}, "event").SetKeys(true, "Id")
 	Dbmap.AddTableWithName(schema.PlaceOption{}, "place_option").SetKeys(true, "Id")
 	Dbmap.AddTableWithName(schema.Vote{}, "vote").SetKeys(true, "Id")
+	Dbmap.AddTableWithName(schema.Bill{}, "bill").SetKeys(true, "Id")
 	err = Dbmap.CreateTablesIfNotExists()
 	checkErr(err, "Create table failed")
 

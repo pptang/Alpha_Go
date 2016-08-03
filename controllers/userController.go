@@ -1,11 +1,14 @@
 package controllers
 
 import (
-	"log"
 	"Alpha_Go/models"
-	"github.com/gin-gonic/gin"
-	"Alpha_Go/utils"
 	"Alpha_Go/schema"
+	"Alpha_Go/utils"
+	"io/ioutil"
+	"log"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Register(c *gin.Context) {
@@ -23,7 +26,7 @@ func Register(c *gin.Context) {
 
 			newUser, tokenString, err := models.CreateUser(user.Email, user.Password)
 
-			if (err == nil) {
+			if err == nil {
 				c.JSON(200, gin.H{"user": newUser, "token": tokenString})
 			} else {
 				c.JSON(500, gin.H{"error": true, "message": err.Error()})
@@ -61,15 +64,39 @@ func GetUserInfo(c *gin.Context) {
 		claims, ok := utils.GetClaimsFromTokenString(tokenString)
 
 		if ok {
-				currentEmail, _ := claims["email"].(string)
-				currentUser := &schema.User {
-					Email: currentEmail,
-				}
-				c.JSON(200, gin.H{"token": tokenString, "user": currentUser})
+			currentEmail, _ := claims["email"].(string)
+			currentId, _ := claims["id"].(float64)
+
+			currentUser := &schema.User{
+				Id:    int64(currentId),
+				Email: currentEmail,
+			}
+			c.JSON(200, gin.H{"token": tokenString, "user": currentUser})
 		} else {
 			log.Println("Wrong in getuserinfo")
 		}
 	} else {
 		c.JSON(401, gin.H{"error": true, "message": "Must pass token"})
 	}
+}
+
+type Body struct {
+	Data string
+}
+
+func Test(c *gin.Context) {
+	resp, err := http.Get("http://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid=36847f3f-deff-4183-a5bb-800737591de5&limit=1&format=xml")
+	if err != nil {
+		c.JSON(400, gin.H{"error": true, "message": err})
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		c.JSON(400, gin.H{"error": true, "message": err})
+		return
+	}
+
+	c.JSON(200, gin.H{"data": string(body)})
+
 }

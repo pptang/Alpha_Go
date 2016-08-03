@@ -7,17 +7,8 @@ class Header extends Component {
     router: PropTypes.object
   };
 
-  componentWillUnmount() {
-
-     this.props.resetDeletedEvent();
-  }
-
   componentWillReceiveProps(nextProps) {
-    if(nextProps.deletedEvent.error && nextProps.deletedEvent.error.message) {//delete failure
-      alert(nextProps.deletedEvent.error.message || 'Could not delete. Please try again.');
-    } else if(nextProps.deletedEvent.event && !nextProps.deletedEvent.error) {//delete success
-      this.context.router.push('/');
-    } else if(this.props.user && !nextProps.user) {
+    if(this.props.user && !nextProps.user) {
       this.context.router.push('/');
     }
   }
@@ -97,12 +88,6 @@ class Header extends Component {
                     </Link>
                   </li>
     			     </ul>
-
-    			     <div className="navbar-form navbar-right" style={{paddingRight: '50px'}}>
-      			      <button className="btn btn-warning pull-xs-right"  onClick={()=> {this.props.onDeleteClick()}}>
-                    Delete Event
-                  </button>
-      		     </div>
                {this.renderSignInLinks(authenticatedUser)}
     	       </div>
   		  );
