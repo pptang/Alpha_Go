@@ -57,7 +57,7 @@ func FindAllEvents() ([]schema.Event, error) {
 	var events []schema.Event
 	_, err := database.Dbmap.Select(&events, "select * from event order by created_at desc")
 
-	if err != nil {
+	if err == nil {
 		return events, nil
 	} else {
 		return nil, err

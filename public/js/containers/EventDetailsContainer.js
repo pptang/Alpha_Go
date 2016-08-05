@@ -4,6 +4,9 @@ import { getEventById, getEventByIdSuccess, getEventByIdFailure,
   voteForOptionsFailure, deleteEvent, deleteEventSuccess, deleteEventFailure}
   from '../actions/events';
 
+import { getAllUsers, getAllUsersSuccess, getAllUsersFailure }
+  from '../actions/users';
+
 import { connect } from 'react-redux';
 
 
@@ -13,7 +16,8 @@ function mapStateToProps(state, ownProps) {
     deletedEvent: state.EventReducer.deletedEvent,
     activeEvent: state.EventReducer.activeEvent,
     user: state.UserReducer.user,
-    eventId: ownProps.id
+    eventId: ownProps.id,
+    users: state.UserReducer.users
   };
 }
 
@@ -78,6 +82,22 @@ const mapDispatchToProps = (dispatch, ownProps) => {
               dispatch(voteForOptionsSuccess(response.payload));
             }
           });
+    },
+
+    getAllUsers: () => {
+
+      let token = sessionStorage.getItem('jwtToken');
+      dispatch(getAllUsers(token)).then((response) => {
+
+        if (response.payload.status != 200) {
+          dispatch(getAllUsersFailure(response.payload));
+
+        } else {
+          dispatch(getAllUsersSuccess(response.payload));
+
+        }
+      });
+
     }
 
   };

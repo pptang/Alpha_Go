@@ -64,3 +64,14 @@ func FindUserByEmailAndPassword(email string, pwd string) (*schema.User, string,
 		return nil, "", errors.New("user not found")
 	}
 }
+
+func FindAllUsers() ([]schema.User, error) {
+	var users []schema.User
+	_, err := database.Dbmap.Select(&users, "SELECT id, email FROM user")
+
+	if err == nil {
+		return users, nil
+	} else {
+		return nil, err
+	}
+}

@@ -56,6 +56,16 @@ func Login(c *gin.Context) {
 	}
 }
 
+func GetAllUsers(c *gin.Context) {
+	users, err := models.FindAllUsers()
+
+	if err == nil {
+		c.JSON(200, gin.H{"users": users})
+	} else {
+		c.JSON(500, gin.H{"error": true, "message": err.Error()})
+	}
+}
+
 func GetUserInfo(c *gin.Context) {
 	tokenString := c.Query("token")
 

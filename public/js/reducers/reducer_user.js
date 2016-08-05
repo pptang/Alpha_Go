@@ -2,10 +2,10 @@ import {
   SIGNIN_USER, SIGNIN_USER_SUCCESS, SIGNIN_USER_FAILURE,
   GET_USER_FROM_TOKEN, GET_USER_FROM_TOKEN_SUCCESS, GET_USER_FROM_TOKEN_FAILURE,
   SIGNUP_USER, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAILURE,
-  LOGOUT_USER
+  LOGOUT_USER, GET_ALL_USERS, GET_ALL_USERS_SUCCESS, GET_ALL_USERS_FAILURE
 } from '../actions/users';
 
-const INITIAL_STATE = {user: null, status: null, error: null, loading: false};
+const INITIAL_STATE = {user: null, status: null, error: null, loading: false, users: []};
 
 export default function(state = INITIAL_STATE, action) {
   let error;
@@ -35,6 +35,13 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, user: null, status: 'storage', error: error, loading: false};
     case LOGOUT_USER:
       return { ...state, user: null, status: 'logout', error: null, loading: false};
+    case GET_ALL_USERS:
+      return { ...state, users: null, error: null, loading: true};
+    case GET_ALL_USERS_SUCCESS:
+      return { ...state, users: action.payload.data.users, error: null, loading: false};
+    case GET_ALL_USERS_FAILURE:
+      error = action.payload.data || {message: action.payload.message};
+      return { ...state, users: null, error: error, loading: false};
     default:
       return state;
   }

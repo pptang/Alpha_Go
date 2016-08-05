@@ -19,6 +19,10 @@ export const RESET_TOKEN = "RESET_TOKEN";
 
 export const LOGOUT_USER = 'LOGOUT_USER';
 
+export const GET_ALL_USERS = "GET_ALL_USERS";
+export const GET_ALL_USERS_SUCCESS = "GET_ALL_USERS_SUCCESS";
+export const GET_ALL_USERS_FAILURE = "GET_ALL_USERS_FAILURE";
+
 export function signInUser(formValues) {
   const request = axios.post(`${ROOT_URL}api/v1/signin`, formValues);
   return {
@@ -96,4 +100,30 @@ export function logoutUser() {
   return {
     type: LOGOUT_USER
   };
+}
+
+export function getAllUsers(tokenFromStorage) {
+  const request = axios({
+    method: 'get',
+    url: `${ROOT_URL}api/v1/getAllUsers`,
+    headers: {'Authorization': `Bearer ${tokenFromStorage}`}
+  });
+  return {
+    type: GET_ALL_USERS,
+    payload: request
+  }
+}
+
+export function getAllUsersSuccess(response) {
+  return {
+    type: GET_ALL_USERS_SUCCESS,
+    payload: response
+  }
+}
+
+export function getAllUsersFailure(error) {
+  return {
+    type: GET_ALL_USERS_FAILURE,
+    payload: error
+  }
 }
