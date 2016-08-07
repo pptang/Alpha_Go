@@ -7,6 +7,9 @@ import { getEventById, getEventByIdSuccess, getEventByIdFailure,
 import { getAllUsers, getAllUsersSuccess, getAllUsersFailure }
   from '../actions/users';
 
+import { sendBills, sendBillsSuccess, sendBillsFailure }
+  from '../actions/bills';
+
 import { connect } from 'react-redux';
 
 
@@ -98,6 +101,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
       });
 
+    },
+
+    sendBills: (sendBody) => {
+      let token = sessionStorage.getItem('jwtToken');
+      dispatch(sendBills(sendBody, token)).then((response) => {
+        if (response.payload.status != 200) {
+          dispatch(sendBillsFailure(response.payload));
+
+        } else {
+          dispatch(sendBillsSuccess(response.payload));
+        }
+      });
     }
 
   };

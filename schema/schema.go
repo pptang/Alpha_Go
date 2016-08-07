@@ -34,6 +34,10 @@ type Vote struct {
 	UserId   int64   `db:"user_id" json:"user_id"`
 }
 
+type BillRequest struct {
+	Bills []Bill `json: "bills"`
+}
+
 type Bill struct {
 	Id         int64 `db:"id" json:"id"`
 	EventId    int64 `db:"event_id" json:"event_id"`

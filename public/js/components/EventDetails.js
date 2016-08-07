@@ -87,7 +87,20 @@ class EventDetails extends Component {
   }
 
   sendBills = () => {
-    console.log("SendBill::" + JSON.stringify(this.state.billList))
+
+    var sendBody = {
+      "bills": this.state.billList.map((bill) => {
+        return {
+          "event_id": parseInt(this.props.eventId),
+          "user_id": this.props.user.id,
+          "creditor_id": bill.user.id,
+          "amount": parseInt(bill.billAmount),
+          "is_cleared": false
+        };
+      })
+    };
+    this.props.sendBills(sendBody);
+    this.closeModal();
   }
 
   componentWillMount() {
